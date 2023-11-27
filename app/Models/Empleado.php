@@ -5,13 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tipoproducto extends Model
+class Empleado extends Model
 {
     use HasFactory;
-    protected $table ='tipo_producto';
-    protected $primaryKey = 'id_tipo';
-    protected $fillable = [
+    protected $table = 'empleado';
+    protected $primaryKey ='id_empleado';
+    protected $fillable =[
+        'ci',
         'nombre',
+        'paterno',
+        'materno',
+        'sexo',
+        'telefono',
         'estado',
     ];
     public $timestamps = false;

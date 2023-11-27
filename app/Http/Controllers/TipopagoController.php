@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tipoproducto;
+use App\Models\Tipopago;
 use Illuminate\Http\Request;
 
-class TipoproductoController extends Controller
+class TipopagoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //$tipos = Tipoproducto::all();
-        $tipos = Tipoproducto::where('estado', 1)->get();
-        return view('tipoproductos.index', compact('tipos'));
+        $tipos = Tipopago::where('estado', 1)->get();
+        return view('tipopagos.index', compact('tipos'));
     }
 
     /**
@@ -22,8 +21,7 @@ class TipoproductoController extends Controller
      */
     public function create()
     {
-        //
-        return view('/tipoproductos.create');
+        return view('/tipopagos.create');
     }
 
     /**
@@ -31,17 +29,17 @@ class TipoproductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $tipo = new Tipoproducto();
+        $tipo = new Tipopago();
         $tipo->nombre =  $request->post('nombre');
+        $tipo->descripcion =  $request->post('descripcion');
         $tipo->save();
-        return redirect()->route('tipoproducto.index');
+        return redirect()->route('tipopago.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Tipoproducto $tipoproducto)
+    public function show(Tipopago $tipopago)
     {
         //
     }
@@ -51,11 +49,8 @@ class TipoproductoController extends Controller
      */
     public function edit($id)
     {
-        $tipo = Tipoproducto::find($id);
-        return view('tipoproductos.edit', compact('tipo'));
-        /*$producto = Producto::find($id);
-        $categorias = Categoria::all();
-        return view('productos.edit', ['producto' => $producto], ['categorias' => $categorias]); */
+        $tipo = Tipopago::find($id);
+        return view('tipopagos.edit', compact('tipo'));
     }
 
     /**
@@ -63,10 +58,11 @@ class TipoproductoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $tipo = Tipoproducto::find($id);
+        $tipo = Tipopago::find($id);
         $tipo->nombre =  $request->post('nombre');
+        $tipo->descripcion =  $request->post('descripcion');
         $tipo->save();
-        return redirect()->route('tipoproducto.index');
+        return redirect()->route('tipopago.index');
     }
 
     /**
@@ -74,30 +70,28 @@ class TipoproductoController extends Controller
      */
     public function destroy($id)
     {
-        $tipo = Tipoproducto::find($id);
+        $tipo = Tipopago::find($id);
         //$tipo->delete();
         if ($tipo) {
             $tipo->update(['estado' => 0]);
         }
 
-        return redirect()->route('tipoproducto.index');
+        return redirect()->route('tipopago.index');
     }
-
-    
     public function eliminados(){
-        $tipos = Tipoproducto::where('estado', 0)->get();
-        return view('tipoproductos.eliminados', compact('tipos'));
+        $tipos = Tipopago::where('estado', 0)->get();
+        return view('tipopagos.eliminados', compact('tipos'));
     }
 
 
     public function cambiarEstado($tipoId)
     {
-    $tipo = Tipoproducto::find($tipoId);
+    $tipo = Tipopago::find($tipoId);
 
     if ($tipo) {
         $tipo->update(['estado' => 1]);
     }
 
-    return redirect()->route('tipoproducto.index');
+    return redirect()->route('tipopago.index');
     }
 }

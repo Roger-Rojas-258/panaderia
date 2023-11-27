@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tipoproducto extends Model
+class Privilegio extends Model
 {
     use HasFactory;
-    protected $table ='tipo_producto';
-    protected $primaryKey = 'id_tipo';
-    protected $fillable = [
-        'nombre',
+    protected $table = 'privilegio';
+    protected $primaryKey ='id_privilegio';
+    protected $fillable =[
+        'descripcion',
         'estado',
     ];
     public $timestamps = false;

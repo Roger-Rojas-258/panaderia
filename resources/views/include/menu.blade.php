@@ -27,7 +27,7 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link ">
+      <a href="{{ route('cliente.index')}}" class="nav-link ">
         <i class="ni ni-planet text-orange"></i>
         <span class="nav-link-text">Cliente</span>
       </a>
@@ -41,7 +41,7 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{route('empleado.index')}}">
         <i class="ni ni-pin-3 text-primary"></i>
         <span class="nav-link-text">Empleado</span>
       </a>
@@ -54,7 +54,7 @@
         <span class="nav-link-text">Vehiculo</span>
       </a>
       <div class="dropdown-menu">
-        <a href="#" class="nav-link">
+        <a href="{{route('tipovehiculo.index')}}" class="nav-link">
           <i class="ni ni-single-02 text-yellow"></i>
           <span class="nav-link-text">Tipo vehiculo</span>
         </a>
@@ -66,9 +66,16 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{route('tipopago.index')}}">
         <i class="ni ni-single-02 text-yellow"></i>
         <span class="nav-link-text">Tipo pago</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{{route('privilegio.index')}}">
+        <i class="ni ni-single-02 text-yellow"></i>
+        <span class="nav-link-text">Privilegios</span>
       </a>
     </li>
 

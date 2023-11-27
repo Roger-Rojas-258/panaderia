@@ -5,11 +5,10 @@
   <div class="col">
     <div class="card shadow">
       <div class="card-header border-0">
-        <h3 class="mb-0">Tipo productos</h3>
+        <h3 class="mb-0">Eliminados Tipo productos</h3>
       </div>
       <div class="card-header border-0">
-        <a href="{{route('tipoproducto.create')}}" class="btn btn-primary me-md-1 btn-sm p-2"><i class="fas fa-plus"></i> Agregar</a>
-        <a href="{{route('tipoproducto.eliminados')}}" class="btn btn-warning btn-sm p-2">Eliminados</a>
+        <a href="{{route('tipoproducto.index')}}" class="btn btn-warning me-md-1 btn-sm p-2"> Regresar</a>
       </div>
       <div class="table-responsive">
         <table class="table align-items-center table-flush">
@@ -17,7 +16,6 @@
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Nombre</th>
-              <th scope="col"></th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -30,20 +28,11 @@
                 <td>
                   <span class="badge badge-dot mr-4">{{$tipo->nombre}}</span>
                 </td>
-                  <form id="formEliminar{{$tipo->id_tipo}}" action="{{route('tipoproducto.destroy',$tipo->id_tipo)}}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <td>
-                      <a href="{{route('tipoproducto.edit', $tipo->id_tipo)}}">
-                        <i class="fa-solid fa-pen-to-square" style="color: #e5e90c; font-size:20px;"></i>
-                      </a>
-                    </td>
-                      <td>
-                        <button type="button" onclick="mostrarModal('formEliminar{{$tipo->id_tipo}}');" style="border:none; background-color:#fff">
-                          <i class="fa-solid fa-trash-can" style="color: #f20707;font-size:20px;"></i>
-                        </button>
-                      </td>
-                  </form>
+                <td>
+                  <a href="#" class="eliminar-tipo" data-id="{{$tipo->id_tipo}}" data-bs-toggle="modal" data-bs-target="#modal-confirma" rel="tooltip" data-placement="top" title="Eliminar">
+                    <i class="fa-solid fa-arrow-up" style="color: yellow; font-weight: bold; font-size:20px"></i>
+                  </a>
+                </td>
               </tr>
             @endforeach
           </tbody>
@@ -52,7 +41,6 @@
     </div>
   </div>
 </div>
-
 
 <!-- Modal -->
     <div class="modal fade" id="modal-confirma" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -77,29 +65,31 @@
     </div>
 
 <!--JS-->
-<<script>
-  function mostrarModal(formId) {
-    // Mostrar la ventana modal
-    $('#modal-confirma').modal('show');
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const elementosEliminar = document.querySelectorAll('.eliminar-tipo');
 
-    // Manejar el clic en el botón "Confirmar"
-    $('.btn-ok').on('click', function () {
-      // Ocultar la ventana modal
-      $('#modal-confirma').modal('hide');
+            elementosEliminar.forEach(function (elemento) {
+                elemento.addEventListener('click', function (event) {
+                    event.preventDefault();
 
-      // Enviar el formulario
-      var form = document.getElementById(formId);
-      if (form) {
-        form.submit();
-      }
-    });
+                    const tipoId = this.getAttribute('data-id');
+                    const url = "{{ route('tipoproducto.restablecer', ['tipoId' => ':tipoId']) }}".replace(':tipoId', tipoId);
 
-    // Manejar el clic en el botón "Cancelar"
-    $('.btn-secondary').on('click', function () {
-      // Ocultar la ventana modal
-      $('#modal-confirma').modal('hide');
-    });
-  }
-</script>
+                    // Configuración para el Modal de Confirmación
+                    const modalConfirmacion = new bootstrap.Modal(document.getElementById('modal-confirma'), {
+                        backdrop: 'static',
+                        keyboard: false
+                    });
 
+                    // Configuración para el botón de Confirmar dentro del Modal
+                    const btnConfirmar = document.querySelector('.btn-ok');
+                    btnConfirmar.setAttribute('href', url);
+
+                    // Mostrar el Modal de Confirmación
+                    modalConfirmacion.show();
+                });
+            });
+        });
+    </script>
 @endsection

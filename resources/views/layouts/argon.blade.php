@@ -69,6 +69,7 @@
     
   </div>
   <!-- Argon Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <!-- fontwasome -->
   <script src="{{asset('https://kit.fontawesome.com/e2c73ec39d.js')}}" crossorigin="anonymous"></script>
   <script src="{{asset('assets/vendor/jquery/dist/jquery.min.js')}}"></script>

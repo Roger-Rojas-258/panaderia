@@ -5,18 +5,23 @@
   <div class="col">
     <div class="card shadow">
       <div class="card-header border-0">
-        <h3 class="mb-0">Tipo productos</h3>
+        <h3 class="mb-0">Empleados</h3>
       </div>
       <div class="card-header border-0">
-        <a href="{{route('tipoproducto.create')}}" class="btn btn-primary me-md-1 btn-sm p-2"><i class="fas fa-plus"></i> Agregar</a>
-        <a href="{{route('tipoproducto.eliminados')}}" class="btn btn-warning btn-sm p-2">Eliminados</a>
+        <a href="{{route('empleado.create')}}" class="btn btn-primary me-md-1 btn-sm p-2"><i class="fas fa-plus"></i> Agregar</a>
+        <a href="{{route('empleado.eliminados')}}" class="btn btn-warning btn-sm p-2">Eliminados</a>
       </div>
       <div class="table-responsive">
         <table class="table align-items-center table-flush">
           <thead class="thead-light">
             <tr>
               <th scope="col">ID</th>
+              <th scope="col">CI</th>
               <th scope="col">Nombre</th>
+              <th scope="col">Paterno</th>
+              <th scope="col">Materno</th>
+              <th scope="col">Sexo</th>
+              <th scope="col">Telefono</th>
               <th scope="col"></th>
               <th scope="col"></th>
             </tr>
@@ -25,21 +30,36 @@
             @foreach ($tipos as $tipo)
               <tr>
                 <td>
-                  <span class="badge badge-dot mr-4">{{$tipo->id_tipo}}</span>
+                  <span class="badge badge-dot mr-4">{{$tipo->id_empleado}}</span>
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">{{$tipo->ci}}</span>
                 </td>
                 <td>
                   <span class="badge badge-dot mr-4">{{$tipo->nombre}}</span>
                 </td>
-                  <form id="formEliminar{{$tipo->id_tipo}}" action="{{route('tipoproducto.destroy',$tipo->id_tipo)}}" method="POST">
+                <td>
+                  <span class="badge badge-dot mr-4">{{$tipo->paterno}}</span>
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">{{$tipo->materno}}</span>
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">{{$tipo->sexo}}</span>
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">{{$tipo->telefono}}</span>
+                </td>
+                  <form id="formEliminar{{$tipo->id_empleado}}" action="{{route('empleado.destroy',$tipo->id_empleado)}}" method="POST">
                     @csrf
                     @method('DELETE')
                     <td>
-                      <a href="{{route('tipoproducto.edit', $tipo->id_tipo)}}">
+                      <a href="{{route('empleado.edit', $tipo->id_empleado)}}">
                         <i class="fa-solid fa-pen-to-square" style="color: #e5e90c; font-size:20px;"></i>
                       </a>
                     </td>
                       <td>
-                        <button type="button" onclick="mostrarModal('formEliminar{{$tipo->id_tipo}}');" style="border:none; background-color:#fff">
+                        <button type="button" onclick="mostrarModal('formEliminar{{$tipo->id_empleado}}');" style="border:none; background-color:#fff">
                           <i class="fa-solid fa-trash-can" style="color: #f20707;font-size:20px;"></i>
                         </button>
                       </td>
