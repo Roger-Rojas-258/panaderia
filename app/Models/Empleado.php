@@ -15,9 +15,11 @@ class Empleado extends Model
         'nombre',
         'paterno',
         'materno',
+        'fecha_nacimiento',
+        'sueldo',
         'sexo',
         'telefono',
         'estado',
     ];
-    public $timestamps = false;
+    public $timestamps = true;
 }

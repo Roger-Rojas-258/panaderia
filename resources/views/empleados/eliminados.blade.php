@@ -19,6 +19,8 @@
               <th scope="col">Nombre</th>
               <th scope="col">Paterno</th>
               <th scope="col">Materno</th>
+              <th scope="col">fecha nacimiento</th>
+              <th scope="col">sueldo</th>
               <th scope="col">Sexo</th>
               <th scope="col">Telefono</th>
               <th scope="col"></th>
@@ -38,6 +40,12 @@
                 </td>
                 <td>
                   <span class="badge badge-dot mr-4">{{$tipo->materno}}</span>
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">{{$tipo->fecha_nacimiento}}</span>
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">{{$tipo->sueldo}}</span>
                 </td>
                 <td>
                   <span class="badge badge-dot mr-4">{{$tipo->sexo}}</span>

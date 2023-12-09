@@ -37,6 +37,12 @@
                         <label class="form-control-label" for="input-username">Sexo: </label>
                         <input type="text" id="sexo" name="sexo" class="form-control form-control-alternative" placeholder="sexo">
                       </div>
+
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-username">Fecha de nacimiento: </label>
+                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control form-control-alternative" placeholder="sexo">
+                      </div>
+
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-username">Telefono: </label>
                         <input type="text" id="telefono" name="telefono" class="form-control form-control-alternative" placeholder="telefono">

@@ -13,8 +13,8 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $tipos = Tipoproducto::all();
-        $productos = Producto::all();
+        $tipos = Tipoproducto::where('estado', 1)->get();
+        $productos = Producto::where('estado', 1)->get();
         return view('productos.index', compact('productos'),compact('tipos'));
     }
 
@@ -79,8 +79,27 @@ class ProductoController extends Controller
     public function destroy($id)
     {
         $producto = Producto::find($id);
-        $producto->delete();
+        if ($producto) {
+            $producto->update(['estado' => 0]);
+        }
 
         return redirect()->route('producto.index');
+    }
+    public function eliminados(){
+        $tipos = Tipoproducto::all();
+        $productos = Producto::where('estado', 0)->get();
+        return view('productos.eliminados', compact('tipos'), compact('productos'));
+    }
+
+
+    public function cambiarEstado($tipoId)
+    {
+    $tipo = Producto::find($tipoId);
+
+    if ($tipo) {
+        $tipo->update(['estado' => 1]);
+    }
+
+    return redirect()->route('producto.index');
     }
 }

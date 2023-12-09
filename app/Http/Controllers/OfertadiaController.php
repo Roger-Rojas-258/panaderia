@@ -4,12 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Ofertadia;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class OfertadiaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function createOferta()
+    {
+        $ultimaFecha = Ofertadia::max('fecha');
+        $fechaActual = Carbon::now();
+        $fechaActual = $fechaActual->format('Y-m-d'); 
+        if($fechaActual>$ultimaFecha){
+            Ofertadia::create([
+            'fecha' => $fechaActual,
+            ]);
+        }
+    }
+
     public function index()
     {
         //
@@ -62,4 +75,5 @@ class OfertadiaController extends Controller
     {
         //
     }
+    
 }

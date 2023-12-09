@@ -17,7 +17,8 @@ class Cliente extends Model
         'materno',
         'sexo',
         'telefono',
+        'fecha_nacimiento',
         'estado',
     ];
-    public $timestamps = false;
+    public $timestamps = true;
 }

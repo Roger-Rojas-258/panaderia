@@ -55,11 +55,8 @@
         </div>
       </div>
     </nav>
-    <div class="container-fluid mt--6">
-      <br>
-      <br>
-      <br>
-      <br>
+    <div class="container-fluid mt-4">
+    
       @include('include.content')
       <!-- Footer -->
       <footer class="footer pt-0">

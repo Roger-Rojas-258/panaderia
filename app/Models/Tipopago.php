@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Tipopago extends Model
 {
     use HasFactory;
-    protected $table ='tipo_pago';
+    protected $table = 'tipo_pago';
     protected $primaryKey = 'id_pago';
     protected $fillable = [
         'nombre',
         'descripcion',
         'estado',
     ];
-    public $timestamps = false;
+    public $timestamps = true;
 }

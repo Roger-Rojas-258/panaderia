@@ -35,6 +35,7 @@ class ClienteController extends Controller
         $tipo->paterno =  $request->post('paterno');
         $tipo->materno =  $request->post('materno');
         $tipo->sexo =  $request->post('sexo');
+        $tipo->fecha_nacimiento= $request->post('fecha_nacimiento');
         $tipo->telefono =  $request->post('telefono');
         $tipo->save();
         return redirect()->route('cliente.index');
@@ -67,9 +68,11 @@ class ClienteController extends Controller
         $tipo->nombre =  $request->post('nombre');
         $tipo->paterno =  $request->post('paterno');
         $tipo->materno =  $request->post('materno');
+        $tipo->fecha_nacimiento =  $request->post('fecha_nacimiento');
         $tipo->sexo =  $request->post('sexo');
         $tipo->telefono =  $request->post('telefono');
         $tipo->save();
+        //crear usuario
         return redirect()->route('cliente.index');
     }
 

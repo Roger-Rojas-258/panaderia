@@ -19,7 +19,7 @@
           <i class="ni ni-single-02 text-yellow"></i>
           <span class="nav-link-text">Tipo productos</span>
         </a>
-        <a href="{{ route('producto.index')}}" class="nav-link">
+        <a href="{{route('producto.index')}}" class="nav-link">
           <i class="ni ni-single-02 text-yellow"></i>
           <span class="nav-link-text">Productos</span>
         </a>
@@ -32,11 +32,25 @@
         <span class="nav-link-text">Cliente</span>
       </a>
     </li>
+    <!-- aqui lo que tengo que hacer es listar los productos y darle un checkbox para elegir los productos a la venta y un boton de sacar a la venta -->
+    <li class="nav-item">
+      <a href={{route('productosoferta.index')}} class="nav-link ">
+        <i class="ni ni-planet text-orange"></i>
+        <span class="nav-link-text">Productos a la venta</span>
+      </a>
+    </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{route('repartidor.index')}}">
         <i class="ni ni-pin-3 text-primary"></i>
         <span class="nav-link-text">Repartidor</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{{route('venta.index')}}">
+        <i class="ni ni-single-02 text-yellow"></i>
+        <span class="nav-link-text">Caja venta</span>
       </a>
     </li>
 
@@ -58,7 +72,7 @@
           <i class="ni ni-single-02 text-yellow"></i>
           <span class="nav-link-text">Tipo vehiculo</span>
         </a>
-        <a href="#" class="nav-link">
+        <a href="{{route('vehiculo.index')}}" class="nav-link">
           <i class="ni ni-single-02 text-yellow"></i>
           <span class="nav-link-text">Vehiculo</span>
         </a>
@@ -72,10 +86,29 @@
       </a>
     </li>
 
+
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+        aria-expanded="false">
+        <i class="ni ni-pin-3 text-primary"></i>
+        <span class="nav-link-text">Administración</span>
+      </a>
+      <div class="dropdown-menu">
+        <a class="nav-link" href="{{route('roles.index')}}">
+          <i class="ni ni-single-02 text-yellow"></i>
+          <span class="nav-link-text">Rol</span>
+        </a>
+        <a class="nav-link" href="{{route('privilegio.index')}}">
+          <i class="ni ni-single-02 text-yellow"></i>
+          <span class="nav-link-text">Privilegios</span>
+        </a>
+      </div>
+    </li>
+
     <li class="nav-item">
-      <a class="nav-link" href="{{route('privilegio.index')}}">
+      <a class="nav-link" href="{{route('usuario.index')}}">
         <i class="ni ni-single-02 text-yellow"></i>
-        <span class="nav-link-text">Privilegios</span>
+        <span class="nav-link-text">Usuario</span>
       </a>
     </li>
 

@@ -9,7 +9,7 @@
       </div>
       <div class="card-header border-0">
         <a href="{{route('productos.create')}}" class="btn btn-primary me-md-1 btn-sm p-2"><i class="fas fa-plus"></i> Agregar</a>
-        <a href="" class="btn btn-warning btn-sm p-2">Eliminados</a>
+        <a href="{{ route('producto.eliminados')}}" class="btn btn-warning btn-sm p-2">Eliminados</a>
       </div>
       <div class="table-responsive">
         <table class="table align-items-center table-flush">

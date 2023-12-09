@@ -83,8 +83,9 @@ class TipoproductoController extends Controller
         return redirect()->route('tipoproducto.index');
     }
 
-    
-    public function eliminados(){
+
+    public function eliminados()
+    {
         $tipos = Tipoproducto::where('estado', 0)->get();
         return view('tipoproductos.eliminados', compact('tipos'));
     }
@@ -92,12 +93,12 @@ class TipoproductoController extends Controller
 
     public function cambiarEstado($tipoId)
     {
-    $tipo = Tipoproducto::find($tipoId);
+        $tipo = Tipoproducto::find($tipoId);
 
-    if ($tipo) {
-        $tipo->update(['estado' => 1]);
-    }
+        if ($tipo) {
+            $tipo->update(['estado' => 1]);
+        }
 
-    return redirect()->route('tipoproducto.index');
+        return redirect()->route('tipoproducto.index');
     }
 }

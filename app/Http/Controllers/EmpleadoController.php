@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Empleado;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 
 class EmpleadoController extends Controller
@@ -34,9 +35,12 @@ class EmpleadoController extends Controller
         $tipo->nombre =  $request->post('nombre');
         $tipo->paterno =  $request->post('paterno');
         $tipo->materno =  $request->post('materno');
+        $tipo->fecha_nacimiento =  $request->post('fecha_nacimiento');
+        $tipo->sueldo =  $request->post('sueldo');
         $tipo->sexo =  $request->post('sexo');
         $tipo->telefono =  $request->post('telefono');
         $tipo->save();
+        //crear usuario
         return redirect()->route('empleado.index');
     }
 
@@ -67,6 +71,8 @@ class EmpleadoController extends Controller
         $tipo->nombre =  $request->post('nombre');
         $tipo->paterno =  $request->post('paterno');
         $tipo->materno =  $request->post('materno');
+        $tipo->fecha_nacimiento =  $request->post('fecha_nacimiento');
+        $tipo->sueldo =  $request->post('sueldo');
         $tipo->sexo =  $request->post('sexo');
         $tipo->telefono =  $request->post('telefono');
         $tipo->save();
@@ -82,6 +88,12 @@ class EmpleadoController extends Controller
         //$tipo->delete();
         if ($tipo) {
             $tipo->update(['estado' => 0]);
+        }
+        //damos de baja en los usuario
+        $nombre = $tipo->nombre;
+        $usuario = Usuario::find($nombre);
+        if($usuario){
+            $usuario->update(['estado' => 0]);
         }
 
         return redirect()->route('empleado.index');
@@ -100,6 +112,12 @@ class EmpleadoController extends Controller
     if ($tipo) {
         $tipo->update(['estado' => 1]);
     }
+    //damos de baja en los usuario
+        $nombre = $tipo->nombre;
+        $usuario = Usuario::find($nombre);
+        if($usuario){
+            $usuario->update(['estado' => 1]);
+        }
 
     return redirect()->route('empleado.index');
     }

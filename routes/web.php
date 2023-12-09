@@ -2,12 +2,20 @@
 
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\NotaventaController;
 use App\Http\Controllers\PrivilegioController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ProductoofertaController;
+use App\Http\Controllers\RepartidorController;
+use App\Http\Controllers\RolController;
 use App\Http\Controllers\TipoproductoController;
 use App\Http\Controllers\TipovehiculoController;
 use App\Http\Controllers\TipopagoController;
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\VehiculoController;
+use App\Models\Detalleventa;
 use App\Models\Producto;
+use App\Models\Productooferta;
 use App\Models\Tipoproducto;
 use Illuminate\Support\Facades\Route;
 
@@ -42,9 +50,14 @@ Route::get('/producto/edit/{id}', [ProductoController::class, 'edit'])->name('pr
 Route::put('/producto/update/{id}', [ProductoController::class, 'update'])->name('producto.update');
 Route::delete('/producto/destroy/{id}', [ProductoController::class, 'destroy'])->name('producto.destroy');
 
+Route::get('producto/eliminados', [ProductoController::class, 'eliminados'])->name('producto.eliminados');
+
+Route::get('producto/restablecer/{tipoId}', [ProductoController::class, 'cambiarEstado'])->name('producto.restablecer');
+
 
 //tipo producto
 Route::get('tipoproducto/', [TipoproductoController::class, 'index'])->name('tipoproducto.index');
+
 Route::get('tipoproducto/create', [TipoproductoController::class, 'create'])->name('tipoproducto.create');
 Route::post('tipoproducto/store', [TipoproductoController::class, 'store'])->name('tipoproducto.store');
 Route::get('/tipoproducto/edit/{id}', [TipoproductoController::class, 'edit'])->name('tipoproducto.edit');
@@ -116,3 +129,59 @@ Route::delete('/privilegio/destroy/{id}', [PrivilegioController::class, 'destroy
 Route::get('privilegio/eliminados', [PrivilegioController::class, 'eliminados'])->name('privilegio.eliminados');
 
 Route::get('privilegio/restablecer/{tipoId}', [PrivilegioController::class, 'cambiarEstado'])->name('privilegio.restablecer');
+
+//Vehiculo
+Route::get('vehiculo/', [VehiculoController::class, 'index'])->name('vehiculo.index');
+Route::get('vehiculo/create', [VehiculoController::class, 'create'])->name('vehiculo.create');
+Route::post('vehiculo/store', [VehiculoController::class, 'store'])->name('vehiculo.store');
+Route::get('/vehiculo/edit/{id}', [VehiculoController::class, 'edit'])->name('vehiculo.edit');
+Route::put('/vehiculo/update/{id}', [VehiculoController::class, 'update'])->name('vehiculo.update');
+Route::delete('/vehiculo/destroy/{id}', [VehiculoController::class, 'destroy'])->name('vehiculo.destroy');
+
+Route::get('vehiculo/eliminados', [VehiculoController::class, 'eliminados'])->name('vehiculo.eliminados');
+
+Route::get('vehiculo/restablecer/{tipoId}', [VehiculoController::class, 'cambiarEstado'])->name('vehiculo.restablecer');
+
+//Repartidor
+Route::get('repartidor/', [RepartidorController::class, 'index'])->name('repartidor.index');
+Route::get('repartidor/create', [RepartidorController::class, 'create'])->name('repartidor.create');
+Route::post('repartidor/store', [RepartidorController::class, 'store'])->name('repartidor.store');
+Route::get('/repartidor/edit/{id}', [RepartidorController::class, 'edit'])->name('repartidor.edit');
+Route::put('/repartidor/update/{id}', [RepartidorController::class, 'update'])->name('repartidor.update');
+Route::delete('/repartidor/destroy/{id}', [RepartidorController::class, 'destroy'])->name('repartidor.destroy');
+
+Route::get('repartidor/eliminados', [RepartidorController::class, 'eliminados'])->name('repartidor.eliminados');
+
+Route::get('repartidor/restablecer/{tipoId}', [RepartidorController::class, 'cambiarEstado'])->name('repartidor.restablecer');
+
+// rol
+Route::get('roles/', [RolController::class, 'index'])->name('roles.index');
+Route::get('roles/create', [RolController::class, 'create'])->name('roles.create');
+Route::post('roles/store', [RolController::class, 'store'])->name('roles.store');
+Route::get('/roles/edit/{id}', [RolController::class, 'edit'])->name('roles.edit');
+Route::put('/roles/update/{id}', [RolController::class, 'update'])->name('roles.update');
+Route::delete('/roles/destroy/{id}', [RolController::class, 'destroy'])->name('roles.destroy');
+Route::get('roles/eliminados', [RolController::class, 'eliminados'])->name('roles.eliminados');
+Route::get('roles/restablecer/{id}', [RolController::class, 'cambiarEstado'])->name('roles.restablecer');
+
+//usuario
+Route::get('usuario/', [UsuarioController::class, 'index'])->name('usuario.index');
+Route::get('usuario/create', [UsuarioController::class, 'create'])->name('usuario.create');
+Route::post('usuario/store', [UsuarioController::class, 'store'])->name('usuario.store');
+Route::get('/usuario/edit/{id}', [UsuarioController::class, 'edit'])->name('usuario.edit');
+Route::put('/usuario/update/{id}', [UsuarioController::class, 'update'])->name('usuario.update');
+Route::delete('/usuario/destroy/{id}', [UsuarioController::class, 'destroy'])->name('usuario.destroy');
+
+Route::get('usuario/eliminados', [UsuarioController::class, 'eliminados'])->name('usuario.eliminados');
+
+Route::get('usuario/restablecer/{tipoId}', [UsuarioController::class, 'cambiarEstado'])->name('usuario.restablecer');
+
+//oferta dia
+Route::get('productosoferta/', [ProductoofertaController::class, 'index'])->name('productosoferta.index');
+Route::get('productosoferta/create', [ProductoofertaController::class, 'create'])->name('productosoferta.create');
+//lo cambie por guardar
+//Route::post('productosoferta/guardar', [ProductoofertaController::class, 'guadarDatos'])->name('productosoferta.guardar');
+
+
+//venta
+Route::get('venta/', [NotaventaController::class, 'index'])->name('venta.index');

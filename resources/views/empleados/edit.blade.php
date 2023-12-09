@@ -40,6 +40,15 @@
                       </div>
 
                       <div class="form-group focused">
+                        <label class="form-control-label" for="input-username">Fecha de nacimiento: </label>
+                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control form-control-alternative" placeholder="fecha nacimeinto" value="{{$tipo->fecha_nacimiento}}">
+                      </div>
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-username">Sueldo: </label>
+                        <input type="text" id="sueldo" name="sueldo" class="form-control form-control-alternative" placeholder="fecha nacimeinto" value="{{$tipo->sueldo}}">
+                      </div>
+
+                      <div class="form-group focused">
                         <label class="form-control-label" for="input-username">Telefono: </label>
                         <input type="text" id="nombre" name="nombre" class="form-control form-control-alternative" placeholder="nombre" value="{{$tipo->sexo}}">
                       </div>

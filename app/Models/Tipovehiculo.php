@@ -14,5 +14,5 @@ class Tipovehiculo extends Model
         'descripcion',
         'estado',
     ];
-    public $timestamps = false;
+    public $timestamps = true;
 }

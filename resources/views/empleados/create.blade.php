@@ -33,6 +33,17 @@
                         <label class="form-control-label" for="input-username">Materno: </label>
                         <input type="text" id="materno" name="materno" class="form-control form-control-alternative" placeholder="materno">
                       </div>
+                      
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-username">Fecha de nacimiento: </label>
+                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control form-control-alternative" placeholder="sexo">
+                      </div>
+
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-username">Sueldo: </label>
+                        <input type="text" id="sueldo" name="sueldo" class="form-control form-control-alternative" placeholder="sueldo">
+                      </div>
+
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-username">Sexo: </label>
                         <input type="text" id="sexo" name="sexo" class="form-control form-control-alternative" placeholder="sexo">
