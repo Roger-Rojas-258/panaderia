@@ -12,11 +12,12 @@ class Vehiculo extends Model
     protected $primaryKey = 'placa';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable =[
+    protected $fillable = [
         'modelo',
         'marca',
         'color',
         'estado_uso',
+        'imagen',
         'id_tipoVehiculo',
     ];
     public $timestamps = true;

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('marca', 40);
             $table->string('color', 40);
             $table->string('estado_uso', 20);
+            $table->string('imagen', 250)->nullable(true);
             $table->unsignedBigInteger('id_tipoVehiculo')->nullable(false);
             $table->unsignedBigInteger('estado')->default(1)->nullable(false);
             $table->timestamps();

@@ -9,8 +9,8 @@ class Empleado extends Model
 {
     use HasFactory;
     protected $table = 'empleado';
-    protected $primaryKey ='id_empleado';
-    protected $fillable =[
+    protected $primaryKey = 'id_empleado';
+    protected $fillable = [
         'ci',
         'nombre',
         'paterno',
@@ -19,6 +19,7 @@ class Empleado extends Model
         'sueldo',
         'sexo',
         'telefono',
+        'imagen',
         'estado',
     ];
     public $timestamps = true;

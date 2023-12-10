@@ -9,8 +9,8 @@ class Repartidor extends Model
 {
     use HasFactory;
     protected $table = 'repartidor';
-    protected $primaryKey ='id_repartidor';
-    protected $fillable =[
+    protected $primaryKey = 'id_repartidor';
+    protected $fillable = [
         'ci',
         'nombre',
         'paterno',
@@ -19,6 +19,7 @@ class Repartidor extends Model
         'tota_propina',
         'sexo',
         'telefono',
+        'imagen',
         'estado',
     ];
     public $timestamps = true;

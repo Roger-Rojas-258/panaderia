@@ -14,6 +14,7 @@ class Producto extends Model
         'nombre',
         'precio',
         'id_tipo',
+        'imagen',
         'estado',
     ];
     public $timestamps = true;

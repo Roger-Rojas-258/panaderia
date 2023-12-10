@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('telefono');
             $table->date('fecha_nacimiento');
             $table->decimal('total_propina', 8, 2);
+            $table->string('imagen', 250)->nullable(true);
             $table->unsignedBigInteger('estado')->default(1)->nullable(false);
             $table->timestamps();
         });

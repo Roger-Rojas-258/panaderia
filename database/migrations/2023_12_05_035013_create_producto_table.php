@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_producto');
             $table->string('nombre', 40)->nullable(false);
             $table->decimal('precio', 8, 2)->nullable(false);
+            $table->string('imagen', 250)->nullable(true);
             $table->unsignedBigInteger('id_tipo')->nullable(false);
             $table->unsignedBigInteger('estado')->nullable(false)->default(1);
             $table->timestamps();
