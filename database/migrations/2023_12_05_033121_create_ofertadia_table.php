@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ofertadia', function (Blueprint $table) {
             $table->id('id_oferta');
-            $table->date('fecha')->nullable(false);
+            $table->date('fecha')->nullable(false); // formato: YYYY-MM-DD
             $table->timestamps();
         });
     }

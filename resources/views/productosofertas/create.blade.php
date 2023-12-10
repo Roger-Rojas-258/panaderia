@@ -2,42 +2,52 @@
 
 @section('content')
 <div class="container mt-4">
-    <form>
-         @csrf
+    
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2">
-            <div class="col">
+            <div class="col ">
                 <div class="col">
                     <h3 class="mt-4">Seleccionar</h3>
                     <div class="col">
                         <input class="form-check-input" type="checkbox" onclick="marcar(this);"> <label class="form-check-label">Seleccionar todos</label>
                     </div>
                 </div>
+
                 <div class="card mb-3">
                     <div class="card-header text-center">PRODUCTOS</div>
-                    <div class="card-body">
+                    <div class="card-body ">
+                        @foreach ($productosAyer as $productoAyer)
+                            <div class="card p-3">
+
+                                <input class="form-check-input" type="checkbox" name="" id="{{$productoAyer->id_producto}}" checked>
+                                <label class="form-check-label">{{$productoAyer->nombre}}</label>
+                                <input type="text" class="form-control" value="{{$productoAyer->pivot->stock}}">
+
+                            </div>
+                        @endforeach
                         
                         @foreach ($productos as $producto)
+                            @php
+                                $existe = false;
+                            @endphp
+                            @foreach ($productosAyer as $productoAyer)
+                                @if ($producto->id_producto == $productoAyer->id_producto)
+                                    @php
+                                        $existe = true;
+                                    @endphp
+                                @endif
+                            @endforeach
+
+                            @if ($existe == false)
                             <div class="form-check form-switch" style="display: flex; justify-content: space-between">
-                                <div>
-                                    <input class="form-check-input" type="checkbox" name=""id="{{$producto->id_producto}}">
+                                <div class="card p-3">
+                                    <input class="form-check-input" type="checkbox" name="" id="{{$producto->id_producto}}">
                                     <label class="form-check-label">{{$producto->nombre}}</label>
-                                </div>
-                                <br>
-                                <br>
-                                <?php $bandera=false?>
-                                <div style="display:flex;">
-                                    <label for="">Stock:</label>
-                                    @foreach ($productosofertas as $productosoferta)
-                                        @if ($producto->id_producto==$productosoferta->id_producto)
-                                            <input type="text" class="form-control form-control-alternative" style="margin-top: -10px; margin-bottom:30px; margin-left:10px" name="stock" value="{{$productosoferta->stock}}" id="stock{{$producto->id_producto}}" >
-                                            <?php $bandera=true?>
-                                        @endif
-                                    @endforeach
-                                    @if ($bandera==false)
-                                        <input type="text" class="form-control form-control-alternative" style="margin-top: -10px; margin-bottom:30px; margin-left:10px" name="stock" id="stock{{$producto->id_producto}}" disabled >
-                                    @endif     
+                                    <input type="text" class="form-control">
                                 </div>
                             </div>
+                            @endif
+
+                                
                         @endforeach
                     </div>
                     <div class="card-header border-0">
@@ -45,12 +55,13 @@
                         <button type="button" class="btn btn-primary btn-sm p-2" name="accion" id="enviar">Sacar a la venta</button>
                     </div>
                 </div>
+
             </div>
         </div>
-    </form>
+    
 </div>
 
-<script>
+{{-- <script>
 let vector = [];
 
 
@@ -123,6 +134,14 @@ botonEnviar.addEventListener('click', function(){
             console.log(error);
         }
     });
-});
-</script>
+}); 
+</script> --}}
+@endsection
+
+@section('scripts')
+
+    <script src="{{asset('/js/productosofertas/create.js')}}">
+        
+    </script>
+
 @endsection

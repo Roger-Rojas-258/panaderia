@@ -14,34 +14,35 @@
         <table class="table align-items-center table-flush">
           <thead class="thead-light">
             <tr>
-              <th scope="col">ID</th>
+              
               <th scope="col">Fecha</th>
               <th scope="col">Nombre</th>
               <th scope="col">Tipo</th>
               <th scope="col">Stock</th>
-              <th scope="col"></th>
+              
             </tr>
           </thead>
           <tbody>
-            @foreach ($productosofertas as $oferta)
+            @foreach ($productos as $producto)
               <tr>
-                <th>{{$oferta->id_productooferta}}</th>
-                @foreach ($ofertadias as $ofertadia)
-                    @if ($oferta->id_oferta==$ofertadia->id_oferta)
-                        <th>{{$ofertadia->fecha}}</th>
-                    @endif
-                @endforeach
-                @foreach ($productos as $producto)
-                    @if ($oferta->id_producto==$producto->id_producto)
-                        <th>{{$producto->nombre}}</th>
-                        @foreach ($tipos as $tipo)
-                            @if ($tipo->id_tipo==$producto->id_tipo)
-                                <th>{{$tipo->nombre}}</th>
-                            @endif
-                        @endforeach
-                    @endif
-                @endforeach
-                <th>{{$oferta->stock}}</th>
+                <td>
+                  <span class="badge badge-dot mr-4">{{$ofertaDia->fecha}}</span>
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">{{$producto->nombre}}</span>
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    @foreach ($tiposProductos as $tipo)
+                        @if ($producto->id_tipo == $tipo->id_tipo)
+                            {{$tipo->nombre}}
+                        @endif
+                    @endforeach
+                  </span>
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">{{$producto->pivot->stock}}</span>
+                </td>
               </tr>
             @endforeach
           </tbody>
