@@ -179,9 +179,12 @@ Route::get('usuario/restablecer/{tipoId}', [UsuarioController::class, 'cambiarEs
 //oferta dia
 Route::get('productosoferta/', [ProductoofertaController::class, 'index'])->name('productosoferta.index');
 Route::get('productosoferta/create', [ProductoofertaController::class, 'create'])->name('productosoferta.create');
+Route::post('productosoferta/store', [ProductoofertaController::class, 'store'])->name('productosoferta.store');
+Route::get('productosoferta/edit/{id}/{id_oferta}', [ProductoofertaController::class, 'edit'])->name('productosoferta.edit');
+Route::put('productosoferta/update/{id}/{id_oferta}', [ProductoofertaController::class, 'update'])->name('productosoferta.update');
+
 //lo cambie por guardar
 //Route::post('productosoferta/guardar', [ProductoofertaController::class, 'guadarDatos'])->name('productosoferta.guardar');
-
 
 //venta
 Route::get('venta/', [NotaventaController::class, 'index'])->name('venta.index');

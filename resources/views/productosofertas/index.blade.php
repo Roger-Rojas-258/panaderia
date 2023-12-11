@@ -19,7 +19,7 @@
               <th scope="col">Nombre</th>
               <th scope="col">Tipo</th>
               <th scope="col">Stock</th>
-              
+              <th scope="col">Opción</th>
             </tr>
           </thead>
           <tbody>
@@ -42,6 +42,11 @@
                 </td>
                 <td>
                   <span class="badge badge-dot mr-4">{{$producto->pivot->stock}}</span>
+                </td>
+                <td>
+                  <a href="{{route('productosoferta.edit', [$producto->id_producto, $ofertaDia->id_oferta])}}">
+                    <i class="fa-solid fa-pen-to-square" style="color: #e5e90c; font-size:20px;"></i>
+                  </a>
                 </td>
               </tr>
             @endforeach
