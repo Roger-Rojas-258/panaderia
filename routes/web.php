@@ -31,8 +31,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
-});
+    return view('inicio');
+})->name('inicio');
 /*GUIA
 Route::get('cliente/create', [ClienteController::class, 'create'])->name('cliente.create');
 Route::get('cliente/edit/{id_cliente}', [ClienteController::class, 'edit'])->name('cliente.edit');
