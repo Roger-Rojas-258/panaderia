@@ -19,7 +19,8 @@ class ProductoofertaController extends Controller
         $fechaActual = Carbon::now();
         $fechaSolo = $fechaActual->toDateString();
         $ofertaDia = Ofertadia::where('fecha', $fechaSolo)->first();
-        $productos = $ofertaDia->productos;
+
+        $productos = $ofertaDia ? $ofertaDia->productos : [];
         $tiposProductos = Tipoproducto::all();
         //return $productos[0]->pivot->id_oferta;
         return view('productosofertas.index', compact('productos', 'ofertaDia', 'tiposProductos'));
@@ -31,17 +32,17 @@ class ProductoofertaController extends Controller
     public function create()
     {
         $fechaActual = Carbon::now();
-
+        $i = 0;
         do {
             $fechaActual = $fechaActual->subDay();
+            //return [$fechaActual->toDateString(), '----', $fechaActual->subDay()->toDateString(),];
             $ofertaAyer = Ofertadia::where('fecha', $fechaActual->toDateString())->first();
-        } while (!$ofertaAyer);
-        //return $ofertaAyer;
-        $productosAyer = $ofertaAyer->productos;
+
+            $i++;
+        } while (!$ofertaAyer && $i < 50);
+
+        $productosAyer = $ofertaAyer ? $ofertaAyer->productos : [];
         $productos = Producto::all();
-
-        //return [$productosAyer, '-----------------------------', $productos];
-
         return view('/productosofertas.create', compact('productos', 'productosAyer'));
     }
 
@@ -50,9 +51,27 @@ class ProductoofertaController extends Controller
      */
     public function store(Request $request)
     {
-        $productooferta = new Productooferta;
-        $productosSeleccionados = $request->input('productos_seleccionados', []);
-        return redirect()->route('nombre_de_tu_ruta');
+        $datos = $request->input('datos');
+        $fechaActual = Carbon::now();
+        if (!(Ofertadia::where('fecha', $fechaActual->toDateString())->first())) {
+            $ofertadia = new Ofertadia();
+            $ofertadia->fecha = $fechaActual->toDateString();
+            $ofertadia->save();
+            foreach ($datos as $dato) {
+                $productooferta = new Productooferta();
+                $productooferta->id_oferta = $ofertadia->id_oferta;
+                $productooferta->id_producto = $dato['id_producto'];
+                $productooferta->stock = $dato['stock'] < 0 ? 0 : $dato['stock'];
+                $productooferta->save();
+            }
+        }
+        //return redirect()->route('productosoferta.index');
+
+        // Obtén los datos enviados en la solicitud AJAX
+        //$datos = $request->input('datos');
+
+        // Haz lo que necesites con los datos en el controlador
+        return response()->json(['success' => true]);
     }
 
     /**
@@ -60,23 +79,32 @@ class ProductoofertaController extends Controller
      */
     public function show(Productooferta $productooferta)
     {
-        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Productooferta $productooferta)
+    public function edit($id, $id_oferta)
     {
-        //
+        $reg = Producto::find($id);
+        $producto = $reg->ofertadias;
+        $productos = Producto::where('estado', 1)->get();
+        return view('productosofertas.edit', compact('producto', 'productos', 'id_oferta'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Productooferta $productooferta)
+    public function update(Request $request, $id, $id_oferta)
     {
-        //
+        $productooferta = Productooferta::where('id_producto', $id)->where('id_oferta', $id_oferta)->first();
+        $nuevoProducto = Producto::find($request->post('nombre'));
+
+        $productooferta->id_producto = $nuevoProducto->id_producto;
+
+        $productooferta->stock =  $request->post('stock');
+        $productooferta->save();
+        return redirect()->route('productosoferta.index');
     }
 
     /**
@@ -86,56 +114,4 @@ class ProductoofertaController extends Controller
     {
         //
     }
-
-    public function guadarDatos(Request $request)
-    {
-        // Obtener los datos del cuerpo de la solicitud y decodificar el JSON
-        // return "exito";
-        $datosJson = $request->getContent();
-        $datos = json_decode($datosJson, true);
-
-        if (!empty($datos)) {
-            foreach ($datos as $dato) {
-                $producto = new Productooferta();
-                $producto->id_producto = $dato['id_producto'];
-                $producto->id_oferta = Ofertadia::max('id_oferta');
-                $producto->stock = $dato['stock'];
-                $producto->save();
-            }
-
-            // Devolver una respuesta
-            return response()->json([
-                'mensaje' => 'Datos recibidos y procesados correctamente',
-                'status' => 200
-            ]);
-        } else {
-            // Devolver una respuesta en caso de que no haya datos
-            return response()->json(['mensaje' => 'No se recibieron datos'], 400);
-        }
-    }
-
-    /*public function guadarDatos(){
-    // Obtener los datos del cuerpo de la solicitud y decodificar el JSON
-    $datosJson = file_get_contents('php://input');
-    $datos = json_decode($datosJson, true);
-
-    if (!empty($datos)) {
-        foreach ($datos as $dato) {
-            $producto = new Productooferta();
-            $producto->id_producto = $dato['id_producto'];
-            $producto->id_oferta = Ofertadia::max('id_oferta');
-            $producto->id_productooferta = 4;
-            $producto->stock = $dato['stock'];
-            $producto->save();
-        }
-
-        // Devolver una respuesta
-        header('Content-Type: application/json');
-        echo json_encode(['mensaje' => 'Datos recibidos y procesados correctamente']);
-    } else {
-        // Devolver una respuesta en caso de que no haya datos
-        header('Content-Type: application/json');
-        echo json_encode(['mensaje' => 'No se recibieron datos']);
-    }
-}*/
 }
