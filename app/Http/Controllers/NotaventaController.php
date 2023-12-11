@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Detalleventa;
+use App\Models\Empleado;
 use App\Models\Notaventa;
 use App\Models\Ofertadia;
 use App\Models\Producto;
 use App\Models\Productooferta;
 use App\Models\Tipopago;
 use App\Models\Tipoproducto;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class NotaventaController extends Controller
@@ -31,6 +34,13 @@ class NotaventaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+    public function auxiliar(){
+        $notaventas = Notaventa::all();
+        $empleados = Empleado::all();
+        $clientes = Cliente::all();
+        $tipos= Tipopago::all();
+        return view('ventas.list', compact('notaventas','empleados','clientes','tipos'));
+    }
     public function create()
     {
         //
@@ -75,40 +85,46 @@ class NotaventaController extends Controller
     {
         //
     }
-    public function guardarVenta(Request $request){
-        return response()->json([
-        'mensaje' => 'Datos recibidos y procesados correctamente',
-        'status' => 200
-    ]);
-    /*$datosJson = $request->getContent();
-    $datos = json_decode($datosJson, true);
-    //guadar venta luego los detalle
+    
+    public function guardarVenta(Request $request) {
+    $datos = $request->json()->all();
     if (!empty($datos)) {
-        //guadar en venta 
+        // Guardar en venta
         $venta = new Notaventa();
-        $venta->fecha = $datos['fecha'];
-        $venta->fecha = $datos['total_precio'];
-        $venta->fecha = $datos['id_cliente'];
-        $venta->fecha = 1;// aqui lo vamos a cambiar caundo se autentifique
-        $venta->id_pago= $datos['id_pago'];
-        foreach ($datos as $dato) {
-            //guadar en detalle venta
-            $producto = new Productooferta();
-            $producto->id_producto = $dato['id_producto'];
-            $producto->id_oferta = Ofertadia::max('id_oferta');
-            $producto->stock = $dato['stock'];
-            $producto->save();
+
+        $fechaActual = Carbon::now();
+        $fechaActual = $fechaActual->format('Y-m-d');
+        
+        $venta->fecha = $fechaActual;
+        $venta->total_precio = $datos['total'];
+        $venta->id_cliente = $datos['id_cliente'];
+        $venta->id_empleado = 1; // Cambiar cuando se autentifique
+        $venta->id_pago = $datos['id_pago'];
+        $venta->save();
+
+        // Extraer información de venta
+        $id_venta = $venta->id_venta;
+
+        // Guardar en detalle venta
+        foreach ($datos['productos'] as $dato) {
+            //if (isset($dato['id_productooferta'])) {
+                $detalleventa = new Detalleventa();
+                $detalleventa->cantidad = $dato['cantidad'];
+                $detalleventa->sub_total = $dato['subtotal'];
+                $detalleventa->id_productooferta = $dato['productoOferta'];
+                $detalleventa->id_venta = $id_venta;
+                $detalleventa->save();
+            //}
         }
 
-        // Devolver una respuesta
         return response()->json([
             'mensaje' => 'Datos recibidos y procesados correctamente',
             'status' => 200
         ]);
     } else {
-        // Devolver una respuesta en caso de que no haya datos
         return response()->json(['mensaje' => 'No se recibieron datos'], 400);
-    }*/
-
     }
+        return redirect()->route('venta.list');
+    }
+    
 }

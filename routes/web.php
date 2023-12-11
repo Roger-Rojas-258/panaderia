@@ -185,3 +185,11 @@ Route::get('productosoferta/create', [ProductoofertaController::class, 'create']
 
 //venta
 Route::get('venta/', [NotaventaController::class, 'index'])->name('venta.index');
+
+Route::get('venta/list', [NotaventaController::class, 'auxiliar'])->name('venta.list');
+
+Route::delete('/venta/destroy/{id}', [NotaventaController::class, 'destroy'])->name('venta.destroy');
+
+Route::get('venta/eliminados', [NotaventaController::class, 'eliminados'])->name('venta.eliminados');
+
+Route::get('venta/restablecer/{tipoId}', [NotaventaController::class, 'cambiarEstado'])->name('venta.restablecer');

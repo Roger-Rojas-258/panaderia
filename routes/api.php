@@ -23,4 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('productosoferta/guardar', [ProductoofertaController::class, 'guadarDatos']);
 
-Route::post('notaventa/guardar', [NotaventaController::class, 'guardarVenta']);
+Route::post('venta/guardar', [NotaventaController::class, 'guardarVenta']);

@@ -48,7 +48,7 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="{{route('venta.index')}}">
+      <a class="nav-link" href="{{route('venta.list')}}">
         <i class="ni ni-single-02 text-yellow"></i>
         <span class="nav-link-text">Caja venta</span>
       </a>

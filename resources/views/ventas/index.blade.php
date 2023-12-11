@@ -4,7 +4,7 @@
 <div id="layoutSidenav_content">
   <main>
     <div class="container-fluid px-4 py-4">
-      <form action="">
+      <form>
         <div class="row">
            <div class="col-12 col-sm-4">
               <div class="row">
@@ -35,21 +35,14 @@
                   </button>
               </div>
             </div>
-            <!--fecha
-            <div class="col-lg-3">
-              <div class="form-group focused">
-                <label class="form-control-label" for="input-username">Fecha</label>
-                <input type="date" id="fecha" name="fecha" class="form-control form-control-alternative" value="date_default_timezone_set('America/La_Paz'); echo date('Y-m-d');">
-              </div>
-            </div>-->
             <!--TIPO DE PAGO-->
             <div class="col-lg-4">
               <div class="form-group focused">
                 <label class="form-control-label" for="input-username">Forma de pago</label>
-                <select name="id_tipo" id="id_tipo" class="form-control form-control-alternative">
+                <select name="id_pago" id="id_pago" class="form-control form-control-alternative">
                   <option selected>Selecciones una forma de pago</option>
                     @foreach ($tipos as $tipo)
-                        <option value="{{$tipo->id_tipo}}"> {{$tipo->nombre}} </option>
+                        <option value="{{$tipo->id_pago}}"> {{$tipo->nombre}} </option>
                     @endforeach
                 </select>
               </div>
@@ -109,7 +102,6 @@
               <th>Cantidad</th>
               <th>Subtotal</th>
               <th width="1%"></th>
-              <th width="1%"></th>
               <!--<th class="d-none">idProducto</th>
               <th class="d-none">idCliente</th>
               <!--<th width="1%"></th> boton para aumentar-->
@@ -162,7 +154,7 @@
                         <td class="align-middle p-1 nombre">{{$categoria->nombre}}</td>
                         <td>
                           <a class="badge bg-success agregar"rel="tooltip" data-placement="top" data_id_producto="{{$producto->id_producto}}"
-                  data_precio="{{$producto->precio}}" data_categoria="{{$categoria->nombre}}", data_producto="{{$producto->nombre}}" title="Seleccionar" style="padding: 10px" data-bs-dismiss="modal"><i class="fa-solid fa-plus" style="font-size: 15px"></i></a>
+                  data_precio="{{$producto->precio}}" data_categoria="{{$categoria->nombre}}", data_producto="{{$producto->nombre}}" data_productooferta="{{$oferta->id_productooferta}}" data_oferta="{{$oferta->id_oferta}}" title="Seleccionar" style="padding: 10px" data-bs-dismiss="modal"><i class="fa-solid fa-plus" style="font-size: 15px"></i></a>
                       </td>
                     @endif
                 @endforeach
@@ -208,8 +200,8 @@
                   <td class="align-middle p-1">{{$cliente->materno}}</td>
                   <td class="align-middle p-1">{{$cliente->telefono}}</td>
                   <td>
-                    <a class="badge bg-success select-option"
-                    rel="tooltip" data-placement="top" title="Seleccionar" data-id="{{$cliente->id_cliente}}" style="padding: 10px"> <i class="fa-solid fa-plus" style="font-size: 15px"></i></a>
+                    <a class="badge bg-success select-option" id="agregarCliente"
+                    rel="tooltip" data-placement="top" title="Seleccionar" data-id="{{$cliente->id_cliente}}" data-nombre="{{$cliente->nombre}}" style="padding: 10px" data-bs-dismiss="modal"> <i class="fa-solid fa-plus" style="font-size: 15px"></i></a>
                   </td>
                 </tr>
             @endforeach
@@ -234,10 +226,7 @@
     <td>2$ individual</td>
     <td>$ <span>500</span></td>
     <td>
-      <button class="btn btn-info btn-sm">+</button>
-    </td>
-    <td>
-      <button class="btn btn-danger btn-sm">-</button>
+      <button class="btn btn-info btn-sm" style="background-color: #fff; border:none"><i class="fa-solid fa-trash-can" style="color:red; font-size:15px"></i></button>
     </td>
   </tr>
 </template>
@@ -255,8 +244,28 @@ const precio = document.getElementById('precio');
 const subtotal = document.getElementById('subtotal');
 const total = document.getElementById('total');
 const completarVenta = document.getElementById('completa_venta');
+let productoOferta;
+
+//cliente
+const nombreProducto = document.getElementById('nombre');
+let id_cliente;
+const agregarCliente = document.getElementById('agregarCliente');
+agregarCliente.addEventListener('click', function(){
+  nombreProducto.value = this.getAttribute('data-nombre');
+  id_cliente = this.getAttribute('data-id');
+})
+
+//---------------------------------------------------------------------
+cantidad.addEventListener('keyup',function(e){
+  const precio2 = parseFloat($("#precio").val());
+  const cantidad = parseFloat($("#cantidad").val());
+  const subtotal = cantidad * precio2;
+  $("#subtotal").val(subtotal);
+});
+
 
 document.addEventListener("DOMContentLoaded", function () {
+  const id_pago = document.getElementById('id_pago');
   detectarBotones();
 });
 
@@ -270,6 +279,7 @@ const detectarBotones = () => {
       categoria.value = this.getAttribute('data_categoria');
       cantidad.value = 1;
       subtotal.value = cantidad.value * precio.value;
+      productoOferta = this.getAttribute('data_productooferta');
     })
   });
 }
@@ -278,27 +288,36 @@ let agregar_producto = document.getElementById('agregar_producto');
 agregar_producto.addEventListener('click', function () {
   // Crear un objeto
   if(id.value !== "" && nombre.value !== "" && categoria.value !== "" && precio.value !== "" && subtotal.value !== "" && cantidad.value !== 0) {
-    const producto = {
-    id_producto: id.value,
-    nombre: nombre.value,
-    categoria: categoria.value,
-    precio: precio.value,
-    subtotal: subtotal.value,
-    cantidad: cantidad.value,
-  }
+    //verificar si el dato ya existe el dato en el carrito
+    if(existeElDato(carrito,id.value)==false){
+      const producto = {
+      id_producto: id.value,
+      nombre: nombre.value,
+      categoria: categoria.value,
+      precio: precio.value,
+      subtotal: subtotal.value,
+      cantidad: cantidad.value,
+      productoOferta: productoOferta,
+      }
+      // Agregar el producto al carrito
+      carrito.push(producto);
+      
+    } else{
+      carrito = incrementarCantidad(carrito,id.value,cantidad.value,subtotal.value);
+    }
+    
   //actualizar el total
-  total.value = parseFloat(total.value)+ parseFloat(subtotal.value) * parseFloat(cantidad.value);
+  total.value = parseFloat(total.value)+ parseFloat(subtotal.value);
   // Vaciar los campos después de agregar el producto
   id.value = "";
-  nombre.value = "";
   categoria.value = "";
   cantidad.value = "";
+  nombre.value ="";
   precio.value = "";
   subtotal.value = "";
 
-  // Agregar el producto al carrito
-  carrito.push(producto);
 
+  //console.log(carrito);
   // Dibujar carrito
   pintarCarrito();
   } else{
@@ -327,7 +346,6 @@ const pintarCarrito = () => {
 
     // Botones
     template.querySelector(".btn-info").dataset.id = producto.id_producto;
-    template.querySelector(".btn-danger").dataset.id = producto.id_producto;
 
     const clone = template.cloneNode(true);
     fragment.appendChild(clone);
@@ -336,38 +354,38 @@ const pintarCarrito = () => {
   tabla.appendChild(fragment);
 }
 
-/*completarVenta.addEventListener('click',function(){
-  carrito.push(total.value);
-  //console.log(carrito);
-  const xhr = new XMLHttpRequest();
-    //const url = 'http://localhost/panaderia/public/api/venta/guardarVenta';
-    const url = 'http://localhost/panaderia/public/api/notaventa/guardar';
-    const data = JSON.stringify(carrito);
-    console.log(data);
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: data,
-        success: function (response) {
-            if (response.status == 200) {
-                console.log('guardado');
-            } else {
-                console.log('error');
-            }
-        }, 
-        error: function (data, textStatus, jqXHR, error) {
-            console.log(data);
-            console.log(textStatus);
-            console.log(jqXHR);
-            console.log(error);
-        }
-    });
-    tabla.innerHTML="";
-})*/
+//verificar si el dato ingresando ya existe
+function existeElDato(carrito,id){
+  let existe=false;
+  carrito.forEach(element => {
+    if(element.id_producto==id){
+      existe=true;
+    }
+  });
+  return existe;
+}
+
+//incrementar la cantidad si es que ya existe el datos
+function incrementarCantidad(carrito, id, cantidad,subtotal){
+  carrito.forEach(element => {
+    if(element.id_producto==id){
+      element.cantidad=parseFloat(element.cantidad)+parseFloat(cantidad);
+      element.subtotal = parseFloat(element.subtotal)+parseFloat(subtotal);
+    }
+  });
+  return carrito;
+}
+
 completarVenta.addEventListener('click', function () {
-  const xhr = new XMLHttpRequest();
-  const url = 'http://localhost/panaderia/public/api/notaventa/guardar';
-  const data = JSON.stringify(carrito);
+  const extra = {
+    id_cliente: id_cliente,
+    total: total.value,
+    id_pago:id_pago.value,
+    productos : carrito,
+  };
+  console.log(extra);
+  const url = 'http://localhost/panaderia/public/api/venta/guardar';
+  const data = JSON.stringify(extra);
 
   $.ajax({
     url: url,
@@ -377,7 +395,7 @@ completarVenta.addEventListener('click', function () {
       if (response.status == 200) {
         console.log('guardado');
       } else {
-        console.log('error');
+        console.log('error Servidor');
       }
     },
     error: function (data, textStatus, jqXHR, error) {
@@ -387,10 +405,9 @@ completarVenta.addEventListener('click', function () {
       console.log(error);
     }
   });
-  
-  // Limpiar el carrito después de completar la venta
-  carrito = [];
+  //limpiar la tabla y el total
   tabla.innerHTML = "";
+  total.value=0.00;
 });
 
 </script>
