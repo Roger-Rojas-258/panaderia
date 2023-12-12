@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cliente;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -29,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = RouteServiceProvider::HOME; // en caso de exito del registro, se redirige a esta vista
 
     /**
      * Create a new controller instance.
@@ -50,8 +51,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'usuario' => ['required', 'string', 'max:255', 'unique:users'],
+            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -64,10 +65,23 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $cliente = new Cliente();
+        $cliente->nombre = $data['nombre'];
+        $cliente->paterno = $data['paterno'];
+        $cliente->materno = $data['materno'];
+        $cliente->telefono = $data['telefono'];
+        $cliente->fecha_nacimiento = $data['fechaNacimiento'];
+        $cliente->sexo = $data['sexo'];
+        $cliente->save();
+
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'usuario' => $data['usuario'],
+            // 'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'id_rol' => 4,
+            'id_cliente' => $cliente->id_cliente,
+            'id_repartidor' => null,
+            'id_empleado' => null,
         ]);
     }
 }

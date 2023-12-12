@@ -29,7 +29,8 @@
       <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
           <div class="card bg-secondary shadow border-0">
-            <div class="card-header bg-transparent pb-5">
+
+            {{-- <div class="card-header bg-transparent pb-5">
               <div class="text-muted text-center mt-2 mb-4"><small>Registrarte con</small></div>
               <div class="text-center">
                 <a href="#" class="btn btn-neutral btn-icon mr-4">
@@ -41,38 +42,112 @@
                   <span class="btn-inner--text">Google</span>
                 </a>
               </div>
-            </div>
+            </div> --}}
+            
             <div class="card-body px-lg-5 py-lg-5">
               <div class="text-center text-muted mb-4">
-                <small>O regístrate con credenciales</small>
+                <small class="">Regístrate con credenciales</small>
               </div>
-              {{-- Debes tener los 4 campos de registro con el name="---" igual al video.  name, email, password y password_confirmation --}}
+
               <form role="form" action="{{route('register')}}" method="post">
                 @csrf
+
+                {{-- <div class="form-group">
+                <div class="input-group input-group-alternative mb-3">
+                      <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                      </div>
+                      <input class="form-control" placeholder="Carnet identidad" type="number" name="ci">
+                </div>
+                </div> --}}
+
                     <div class="form-group">
                     <div class="input-group input-group-alternative mb-3">
                         <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input class="form-control" placeholder="Nombre" type="text" name="name">
+                        <input class="form-control" placeholder="Nombre" type="text" name="nombre" required>
                     </div>
                     </div>
+
                     <div class="form-group">
+                      <div class="input-group input-group-alternative mb-3">
+                          <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-users"></i></span>
+                          </div>
+                          <input class="form-control" placeholder="Apellido paterno" type="text" name="paterno" required>
+                      </div>
+                      </div>
+
+                      <div class="form-group">
+                      <div class="input-group input-group-alternative mb-3">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-users"></i></span>
+                            </div>
+                            <input class="form-control" placeholder="Apellido materno" type="text" name="materno">
+                      </div>
+                      </div>
+
+                      <div class="form-group">
+                      <div class="input-group input-group-alternative mb-3">
+                              <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
+                              </div>
+                              <input class="form-control" placeholder="Celular" type="number" name="telefono">
+                      </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="input-group input-group-alternative mb-3">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                            <input class="form-control" placeholder="Fecha de nacimiento" type="date" name="fechaNacimiento">
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                          <div class="input-group input-group-alternative mb-3">
+                              <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-mars"></i></span>
+                              </div>
+                              <select name="sexo" id="" class="form-control form-control-alternative">
+                                
+                                <option value="N" class="form-control" selected>Sexo</option>
+                                <option value="M" class="form-control">Masculino</option>
+                                <option value="F" class="form-control">Femenino</option>
+                                <option value="N" class="form-control">Otro</option>
+                              </select>
+                        </div>
+                        </div>
+
+                    <div class="form-group">
+                    <div class="input-group input-group-alternative mb-3">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input class="form-control" placeholder="Usuario" type="text" name="usuario" required>
+                    </div>
+                    </div>
+                    
+                    {{-- <div class="form-group">
                     <div class="input-group input-group-alternative mb-3">
                         <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                         </div>
                         <input class="form-control" placeholder="Correo" type="email" name="email">
                     </div>
-                    </div>
+                    </div> --}}
+
                     <div class="form-group">
                     <div class="input-group input-group-alternative">
                         <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                         </div>
-                        <input class="form-control" placeholder="Contraseña" type="password" name="password">
+                        <input class="form-control" placeholder="Contraseña" type="password" name="password" required>
                     </div>
                     </div>
+
                     <div class="form-group">
                         <div class="input-group input-group-alternative">
                             <div class="input-group-prepend">
@@ -81,7 +156,8 @@
                             <input class="form-control" placeholder="Confirmar contraseña" name="password_confirmation" type="password">
                         </div>
                     </div>
-                    <div class="text-muted font-italic"><small>seguridad de la contraseña: <span class="text-success font-weight-700">strong</span></small></div>
+
+                    <div class="text-muted font-italic"><small>seguridad de la contraseña: <span class="text-success font-weight-700">HASH</span></small></div>
                     <div class="row my-4">
                     <div class="col-12">
                         <div class="custom-control custom-control-alternative custom-checkbox">

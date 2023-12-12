@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/inicio', function () {
     return view('inicio');
-})->name('inicio');
+})->middleware('auth')->name('inicio');
 
 Route::get('/', function () {
     return view('welcome');
@@ -51,16 +51,21 @@ Route::put('cliente/update/{ci}', [ClienteController::class, 'update'])->name('c
 Route::delete('cliente/destroy/{ci}', [ClienteController::class, 'destroy'])->name('cliente.destroy');
  */
 
+// Route::middleware(['auth'])->group(function () {
+
+// });
+
 //producto
+
+
 Route::get('producto/', [ProductoController::class, 'index'])->name('producto.index');
+
 Route::get('producto/create', [ProductoController::class, 'create'])->name('productos.create');
 Route::post('producto/store', [ProductoController::class, 'store'])->name('producto.store');
 Route::get('/producto/edit/{id}', [ProductoController::class, 'edit'])->name('producto.edit');
 Route::put('/producto/update/{id}', [ProductoController::class, 'update'])->name('producto.update');
 Route::delete('/producto/destroy/{id}', [ProductoController::class, 'destroy'])->name('producto.destroy');
-
 Route::get('producto/eliminados', [ProductoController::class, 'eliminados'])->name('producto.eliminados');
-
 Route::get('producto/restablecer/{tipoId}', [ProductoController::class, 'cambiarEstado'])->name('producto.restablecer');
 
 

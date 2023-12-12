@@ -20,12 +20,20 @@
         <!-- Contenedor de elementos -->
         <div class="contenedor-items">
             @foreach ( $productos as $producto)
-            <div class="item">
-                <span class="titulo-item">{{$producto->nombre}}</span>
-                <img src="{{asset('/assets/carrito/img/boxengasse.png')}}" alt="" class="img-item">
-                <span class="precio-item">{{$producto->precio}}</span>
-                <button class="boton-item">Agregar al Carrito</button>
-            </div>
+                @foreach ($productoofertas as $dato)
+                    @if ($producto->id_producto == $dato->id_producto)
+                        <div class="item">
+                            <span class="titulo-item">{{$producto->nombre}}</span>
+                            <img src="{{asset('/assets/carrito/img/boxengasse.png')}}" alt="" class="img-item">
+                            <span class="precio-item">{{$producto->precio}}</span>
+                            <span class="precio-item">{{$dato->stock}}</span>
+                            <button class="boton-item">Agregar al Carrito</button>
+                        </div>
+                    @endif
+                    
+                @endforeach
+                   
+
             @endforeach
             
         </div>
