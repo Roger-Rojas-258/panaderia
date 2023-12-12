@@ -13,11 +13,15 @@ use App\Http\Controllers\TipovehiculoController;
 use App\Http\Controllers\TipopagoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VehiculoController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CarritoController;
+
 use App\Models\Detalleventa;
 use App\Models\Producto;
 use App\Models\Productooferta;
 use App\Models\Tipoproducto;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,9 +34,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/inicio', function () {
     return view('inicio');
 })->name('inicio');
+
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome');
+
 /*GUIA
 Route::get('cliente/create', [ClienteController::class, 'create'])->name('cliente.create');
 Route::get('cliente/edit/{id_cliente}', [ClienteController::class, 'edit'])->name('cliente.edit');
@@ -196,3 +205,24 @@ Route::delete('/venta/destroy/{id}', [NotaventaController::class, 'destroy'])->n
 Route::get('venta/eliminados', [NotaventaController::class, 'eliminados'])->name('venta.eliminados');
 
 Route::get('venta/restablecer/{tipoId}', [NotaventaController::class, 'cambiarEstado'])->name('venta.restablecer');
+
+// carrito
+Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
+
+
+
+// login
+Auth::routes();
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+//Route::get('productosoferta/', [ProductoofertaController::class, 'index'])->name('home');
+
+/*
+Route::get('/registrarse', function () {
+    return view('auth.register');
+})->name('login.registrarse');
+
+Route::get('/perfil', function () {
+    return view('login.profile');
+})->name('login.perfil');
+*/
