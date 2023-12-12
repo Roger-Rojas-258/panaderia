@@ -33,13 +33,46 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /*
         $producto = new Producto();
         $producto->nombre = $request->post('nombre');
         $producto->precio = $request->post('precio');
+        //imagen
+         $request->validate([
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $producto->imagen = $request->file('imagen');
+        $nombreImagen = time() . '.' . $producto->imagen->getClientOriginalExtension();
+        $ruta = public_path('imagen');
+        $producto->imagen->move($ruta, $nombreImagen);
+
         $producto->id_tipo = $request->post('id_tipo');
         $producto->save();
-        return redirect()->route('producto.index');
+        return redirect()->route('producto.index');*/
+        // Validación de los campos del producto
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'precio' => 'required|numeric',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'id_tipo' => 'required|exists:tipos,id', // Ajusta según tu modelo y tabla de tipos
+        ]);
+        $producto = new Producto();
+        $producto->nombre = $request->input('nombre');
+        $producto->precio = $request->input('precio');
+
+    // Procesar y almacenar la imagen
+        $imagen = $request->file('imagen');
+        $nombreImagen = time() . '.' . $imagen->getClientOriginalExtension();
+        $ruta = public_path('imagen'); // Asegúrate de que esta sea la ruta correcta
+        $imagen->move($ruta, $nombreImagen);
+        $producto->imagen = $nombreImagen;
+
+        $producto->id_tipo = $request->input('id_tipo');
+        $producto->save(); // Guardar el producto en la base de datos
+
+        return redirect()->route('producto.index')
+                     ->with('success', 'Producto creado exitosamente');
     }
 
     /**
@@ -71,6 +104,9 @@ class ProductoController extends Controller
         $producto->id_tipo =  $request->post('id_tipo');
         $producto->save();
         return redirect()->route('producto.index');
+        // Validación de los campos del producto
+        // Validación de los campos del producto
+    
     }
 
     /**

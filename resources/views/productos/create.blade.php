@@ -28,6 +28,13 @@
                       </div>
 
                       <div class="form-group focused">
+                        <label for="imagen-edit" class="col-sm-4 col-form-label">Imagen:</label>
+                        <input type="file" class="custom-file-input" id="imagen-edit" accept="image/*" name="imagen" onchange="mostrarVistaPreviaEdit()">
+                      </div>
+
+                      
+
+                      <div class="form-group focused">
                         <label class="form-control-label" for="input-username">Tipo producto: </label>
                         <select name="id_tipo" id="id_tipo" class="form-control form-control-alternative">
                           <option selected>Abrir este menú de selección</option>

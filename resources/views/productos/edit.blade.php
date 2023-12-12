@@ -29,6 +29,17 @@
                       </div>
 
                       <div class="form-group focused">
+                          <label for="imagen-edit" class="col-sm-4 col-form-label">Imagen:</label>
+                          <input type="file" class="custom-file-input" id="imagen-edit" accept="image/*"                      name="imagen" onchange="mostrarVistaPreviaEdit()">
+                      </div>
+
+                      <!-- Muestra la imagen actual -->
+                      @if(isset($urlImagenActual))
+                          <img src="{{ $urlImagenActual }}" alt="Imagen actual" style="max-width: 100%; height: auto;">
+                      @endif
+
+
+                      <div class="form-group focused">
                         <label class="form-control-label" for="input-username">Tipo: </label>
                         <select name="id_tipo" id="" class="form-control form-control-alternative">
                           @foreach ($tipos as $tipo)
