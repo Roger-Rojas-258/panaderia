@@ -32,42 +32,17 @@ class ProductoController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        /*
-        $producto = new Producto();
-        $producto->nombre = $request->post('nombre');
-        $producto->precio = $request->post('precio');
-        //imagen
-         $request->validate([
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $producto->imagen = $request->file('imagen');
-        $nombreImagen = time() . '.' . $producto->imagen->getClientOriginalExtension();
-        $ruta = public_path('imagen');
-        $producto->imagen->move($ruta, $nombreImagen);
-
-        $producto->id_tipo = $request->post('id_tipo');
-        $producto->save();
-        return redirect()->route('producto.index');*/
-        // Validación de los campos del producto
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'precio' => 'required|numeric',
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'id_tipo' => 'required|exists:tipos,id', // Ajusta según tu modelo y tabla de tipos
-        ]);
-        $producto = new Producto();
+    {   $producto = new Producto();
+        if($request->hasFile('imagen')){
+            $file = $request()->file('imagen');
+            $destinationPath = "imagen/";
+            $fileNombre = 'imagen'.time();
+            $uploadSucces = $request->file('imagen')->move($destinationPath,$fileNombre);
+            $producto->imagen = $destinationPath . $fileNombre;
+        }
+        
         $producto->nombre = $request->input('nombre');
         $producto->precio = $request->input('precio');
-
-    // Procesar y almacenar la imagen
-        $imagen = $request->file('imagen');
-        $nombreImagen = time() . '.' . $imagen->getClientOriginalExtension();
-        $ruta = public_path('imagen'); // Asegúrate de que esta sea la ruta correcta
-        $imagen->move($ruta, $nombreImagen);
-        $producto->imagen = $nombreImagen;
-
         $producto->id_tipo = $request->input('id_tipo');
         $producto->save(); // Guardar el producto en la base de datos
 

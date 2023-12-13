@@ -19,14 +19,14 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers; //  trait AuthenticatesUsers (para controlar el inicio de sesión. Comprarar contrasenia y user)
 
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = RouteServiceProvider::HOME; // a esta ruta manda cuando se inicia sesion
 
     /**
      * Create a new controller instance.

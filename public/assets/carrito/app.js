@@ -1,4 +1,6 @@
 let carrito = [];
+//importar los datos del vector
+import { vector } from "./guardarDatosMapas.js";
 //Variable que mantiene el estado visible del carrito
 var carritoVisible = false;
 
@@ -244,52 +246,61 @@ function actualizarTotalCarrito() {
         total.toLocaleString("es") + ".00";
 }
 
+//vamos a preguntar si inicio session y si el vector ubicacion esta vacio si esta vacio pues un mensaje para que ponga su ubicacion
+
 //completar compra
 //Eliminamos todos los elementos del carrito y lo ocultamos
 function pagarClicked() {
-    //id_pedido	fecha	total_precio	costo_envio	tiempo_estimado	estado_entrega	id_cliente	id_ubicacion	id_repartidorvehiculo	id_pago
-    const extra = {
-        total_precio: document.getElementsByClassName("carrito-precio-total")[0]
-            .innerText,
-        costo_envio: 5,
-        tiempo_estimado: 30,
-        estado_entrega: "preparacion",
-        id_cliente: 1,
-        id_ubicacion: 1,
-        id_repartidor: 1,
-        id_pago: 1,
-        productos: carrito,
-    };
-    console.log(extra); // esta enviando muy bien solo falta pasarlo al controlador y tambien corregir algunos bug
+    console.log(vector);
+    if (Object.keys(vector).length > 0) {
+        const extra = {
+            total_precio: document.getElementsByClassName(
+                "carrito-precio-total"
+            )[0].innerText,
+            costo_envio: 5,
+            tiempo_estimado: 30,
+            estado_entrega: "PENDIENTE",
+            id_cliente: 1,
+            id_ubicacion: 1,
+            id_repartidor: 1,
+            id_pago: 1,
+            productos: carrito,
+            //ubicacion: vector,
+        };
+        console.log(extra); // esta enviando muy bien solo falta pasarlo al controlador y tambien corregir algunos bug
 
-    //ajax
-    const url = "http://localhost/panaderia/public/api/notapedido/guardar";
-    const data = JSON.stringify(extra);
+        //ajax
+        const url = "http://localhost/panaderia/public/api/notapedido/guardar";
+        const data = JSON.stringify(extra);
 
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: data,
-        success: function (response) {
-            if (response.status == 200) {
-                console.log("guardado");
-            } else {
-                console.log("error Servidor");
-            }
-        },
-        error: function (data, textStatus, jqXHR, error) {
-            console.log(data);
-            console.log(textStatus);
-            console.log(jqXHR);
-            console.log(error);
-        },
-    });
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            success: function (response) {
+                if (response.status == 200) {
+                    console.log("guardado");
+                } else {
+                    console.log("error Servidor");
+                }
+            },
+            error: function (data, textStatus, jqXHR, error) {
+                console.log(data);
+                console.log(textStatus);
+                console.log(jqXHR);
+                console.log(error);
+            },
+        });
 
-    //Elimino todos los elmentos del carrito
-    var carritoItems = document.getElementsByClassName("carrito-items")[0];
-    while (carritoItems.hasChildNodes()) {
-        carritoItems.removeChild(carritoItems.firstChild);
+        //Elimino todos los elmentos del carrito
+        var carritoItems = document.getElementsByClassName("carrito-items")[0];
+        while (carritoItems.hasChildNodes()) {
+            carritoItems.removeChild(carritoItems.firstChild);
+        }
+        actualizarTotalCarrito();
+        ocultarCarrito();
+    } else {
+        console.log(vector);
+        alert("Ingrese una ubicacion para el pedido");
     }
-    actualizarTotalCarrito();
-    ocultarCarrito();
 }

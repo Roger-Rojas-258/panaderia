@@ -1,4 +1,7 @@
-let vector = [];
+//let vector = [];
+
+export let vector = {};
+
 let confirmarUbicacion = document.getElementById("confirmarUbicacion");
 let longitudU, latitudU, direccion;
 
@@ -6,16 +9,15 @@ confirmarUbicacion.addEventListener("click", function () {
     longitudU = document.getElementById("longitud");
     latitudU = document.getElementById("latitud");
     direccion = document.getElementById("direccion");
-    const ubicacion = {
+    vector = {
         longitud: longitudU.value,
         latitud: latitudU.value,
         referencia: direccion.value,
         descripcion: direccion.value,
     };
-    vector.push(ubicacion);
     console.log(vector);
     //ajax
-    const url = "http://localhost/panaderia/public/api/ubicacion/guardar";
+    /*const url = "http://localhost/panaderia/public/api/ubicacion/guardar";
     const data = JSON.stringify(vector);
 
     $.ajax({
@@ -35,5 +37,6 @@ confirmarUbicacion.addEventListener("click", function () {
             console.log(jqXHR);
             console.log(error);
         },
-    });
+    });*/
+    //cerrar la ventana y mostrar un mensaje que se creo con exito
 });

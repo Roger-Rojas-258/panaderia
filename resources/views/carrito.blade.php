@@ -1,6 +1,6 @@
 @extends('layouts.plantillaCliente')
 
-    
+
     @section('titulo')
     Tienda de pan
     @endsection
@@ -67,10 +67,10 @@
     @endsection
 
     @section('js')
-    <script src="{{asset('/assets/carrito/app.js')}}" async></script>
+    <script type="module" src="{{asset('/assets/carrito/app.js')}}" async></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!--Mapa-->
     <script src="{{asset('/assets/carrito/mapas.js')}}"></script>
     <!--Datos dwl mapa guardar-->
-    <script src="{{asset('assets/carrito/guardarDatosMapas.js')}}"></script>
+    <script type="module" src="{{asset('assets/carrito/guardarDatosMapas.js')}}"></script>
     @endsection

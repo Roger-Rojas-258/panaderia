@@ -4,6 +4,15 @@ hermes-dashboard-icons Web Font - built using nucleoapp.com
 License - nucleoapp.com/license/
 
 -------------------------------- */
+/* mis estilos*/
+.tamanio{
+  width: 50%;
+  height: 50%;
+}
+
+/*---------------------*/
+
+
 @font-face {
   font-family: 'NucleoIcons';
   src: url('../fonts/nucleo-icons.eot');

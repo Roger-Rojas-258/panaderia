@@ -17,6 +17,7 @@
     <link href="{{asset('/assets/assets/js/plugins/nucleo/css/nucleo.css')}}" rel="stylesheet" />
     <link href="{{asset('/assets/assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css')}}" rel="stylesheet" />
     <!-- CSS Files -->
+    <link rel="stylesheet" href="{{asset('/assets/carrito/estilo.css')}}">
     <link href="{{asset('/assets/assets/css/argon-dashboard.css?v=1.1.2')}}" rel="stylesheet" />
     <!--mapa-->
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>

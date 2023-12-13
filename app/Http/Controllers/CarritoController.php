@@ -6,7 +6,7 @@ use App\Models\Ofertadia;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Productooferta;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
 class CarritoController extends Controller
 {
@@ -15,13 +15,22 @@ class CarritoController extends Controller
      */
     public function index()
     {
-        $fechaActual = Carbon::now()->toDateString();
-        $ofertaDia = Ofertadia::where('fecha', $fechaActual)->first();
-        $productoofertas = Productooferta::where('id_oferta', $ofertaDia->id_oferta)->get();
+        $fechaActual = Carbon::now()->addDay();
+
+        $i = 0;
+        do {
+            $fechaActual = $fechaActual->subDay();
+            //return [$fechaActual->toDateString(), '----', $fechaActual->subDay()->toDateString(),];
+            $ofertaDia = Ofertadia::where('fecha', $fechaActual->toDateString())->orderBy('id_oferta', 'desc')->first();
+            $i++;
+        } while (!$ofertaDia && $i < 50);
+
+        $productoofertas = Productooferta::where('id_oferta', $ofertaDia ? $ofertaDia->id_oferta : 0)->get();
         $productos = Producto::where('estado', 1)->get();
 
         return view('carrito', compact('productos', 'productoofertas'));
     }
+
 
     /**
      * Show the form for creating a new resource.

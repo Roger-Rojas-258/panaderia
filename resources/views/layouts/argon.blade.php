@@ -8,7 +8,7 @@
   <meta name="author" content="Creative Tim">
   @yield('meta')
 
-  <title>Los angeles</title>
+  <title>Los Ángeles</title>
   <!-- Favicon -->
   <link rel="icon" href="{{asset('assets/img/brand/logo.png')}}" type="image/png">
   <!-- Fonts -->
@@ -29,9 +29,14 @@
   <nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
     <div class="scrollbar-inner">
       <!-- Brand -->
-      <div class="sidenav-header  align-items-center">
+      {{-- <div class="sidenav-header  align-items-center">
         <a class="navbar-brand" href="http://localhost/panaderia/public">
-          <img src="{{asset('assets/img/brand/blue.png')}}" class="navbar-brand-img" alt="...">
+          <img src="{{asset('/assets/assets/img/brand/angelesLogo.jpeg')}}" class=" rounded-circle" style="">
+        </a>
+      </div> --}}
+      <div class="  align-items-center">
+        <a class="" href="{{route('inicio')}}">
+          <img src="{{asset('/assets/assets/img/brand/angelesLogo.jpeg')}}" class=" rounded-circle mt-4 ml-4 mr-4 mb-0" style="width:70%">
         </a>
       </div>
 

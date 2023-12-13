@@ -11,7 +11,7 @@
               </div>
             </div>
             <div class="card-body">
-              <form action="{{route('producto.store')}}" method="POST">
+              <form action="{{route('producto.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <h6 class="heading-small text-muted mb-4">Rellene los siguientes campos :</h6>
                 <div class="pl-lg-4">
@@ -29,7 +29,7 @@
 
                       <div class="form-group focused">
                         <label for="imagen-edit" class="col-sm-4 col-form-label">Imagen:</label>
-                        <input type="file" class="custom-file-input" id="imagen-edit" accept="image/*" name="imagen" onchange="mostrarVistaPreviaEdit()">
+                        <input type="file" class="custom-file-input" id="imagen" accept="image/*" name="imagen" onchange="mostrarVistaPreviaEdit()">
                       </div>
 
                       
