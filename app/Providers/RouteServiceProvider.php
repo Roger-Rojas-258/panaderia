@@ -5,8 +5,10 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use App\Models\Rol;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -17,7 +19,8 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/inicio'; // Esta es ruta donde se dirigira el usuario despues de iniciar sesion con exito
+    //public const HOME = '/inicio'; // Esta es ruta donde se dirigira el usuario despues de iniciar sesion con exito
+    public const HOME = '/carrito';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

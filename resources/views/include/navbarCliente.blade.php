@@ -2,7 +2,7 @@
 <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
     <div class="container px-4">
       <a class="navbar-brand" href="{{route('carrito.index')}}">
-        <img src="{{asset('/assets/assets/img/brand/white.png')}}" />
+        <img src="{{asset('/assets/assets/img/brand/angelesLogo.jpeg')}}" class=" rounded-circle m-0" style="width: 100%; height:4rem"/>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -13,7 +13,7 @@
           <div class="row">
             <div class="col-6 collapse-brand">
               <a href="#">
-                <img src="{{asset('/assets/assets/img/brand/blue.png')}}">
+                <img src="{{asset('/assets/assets/img/brand/angelesLogo.jpeg')}}" class=" rounded-circle m-0" style="width: 15rem; height:100%">
               </a>
             </div>
             <div class="col-6 collapse-close">

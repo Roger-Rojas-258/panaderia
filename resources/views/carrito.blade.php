@@ -1,6 +1,6 @@
 @extends('layouts.plantillaCliente')
 
-    
+
     @section('titulo')
     Tienda de pan
     @endsection
@@ -15,6 +15,7 @@
     </header> --}}
 
     @section('contenido')
+
     <br><br><br><br>
     <section class="contenedor ">
         <!-- Contenedor de elementos -->
