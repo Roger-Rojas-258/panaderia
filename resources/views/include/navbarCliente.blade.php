@@ -1,8 +1,15 @@
+<!--ubicacio-->
+<!-- Maps -->
+      <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVIXqy33ZmOtGAUY8b5gnC0exNaFB_9l4&libraries=places,directions,geometry&callback=initMap"
+      type="text/javascript"></script>
+
+
 <!-- Navbar -->
 <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
     <div class="container px-4">
       <a class="navbar-brand" href="{{route('carrito.index')}}">
-        <img src="{{asset('/assets/assets/img/brand/angelesLogo.jpeg')}}" class=" rounded-circle m-0" style="width: 100%; height:4rem"/>
+        <img src="{{asset('/assets/assets/img/brand/angelesLogo.jpeg')}}" class=" rounded-circle m-0 logo" style="width: 100%; height:4rem"/>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -44,13 +51,78 @@
               <span class="nav-link-inner--text">Iniciar Sesión</span>
             </a>
           </li>
-          {{-- <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="../examples/profile.html">
-              <i class="ni ni-single-02"></i>
-              <span class="nav-link-inner--text">Profile</span>
+          <li class="nav-item">
+            <a class="nav-link nav-link-icon" href="#">
+              <i class="fa-solid fa-location-dot"></i>
+              <span class="nav-link-inner--text"><!-- Button trigger modal -->
+                <button type="button" data-toggle="modal" data-target="#exampleModal" style="background-color: #273036;color:#fff; border:none" >
+                  Tu ubicacion
+                </button>
+                <i class="fa-solid fa-chevron-up"></i>
+              </span>
             </a>
-          </li> --}}
+          </li>
+
         </ul>
       </div>
     </div>
   </nav>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><strong>Ingresa tu direccion</strong></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="">
+          <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Direccion o punto de referencia">
+        </form>
+        <br>
+          <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter" data-dismiss="modal">
+            <i class="fa-solid fa-location-crosshairs"></i> Mi ubicacion actual
+          </button>             
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Mapa-->
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Confirma tu ubicacion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+     <!-- <form action="#" method="POST" style="margin-top: 8px">-->
+        <div class="modal-body" style="margin-top: -30px">
+          <div id="map" style="height: 400px; width: 100%"></div>
+            <input type="text" id="direccion" class="form-control form-control-alternative" placeholder="Direccion o punto de referencia">
+            <input type="text" id="longitud" style="display: none">
+            <input type="text" id="latitud" style="display: none">
+          </div>
+          <div class="modal-footer" style="margin-top: -30px">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="confirmarUbicacion" data-dismiss="modal" >Confirmar Ubicación</button>
+          </div>
+        </div>
+      <!--</form>-->
+    
+  </div>
+</div>

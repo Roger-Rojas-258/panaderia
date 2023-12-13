@@ -17,6 +17,7 @@
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Nombre</th>
+              <th scope="col">Imagen</th>
               <th scope="col">Precio</th>
               <th scope="col">Tipo</th>
               <th scope="col"></th>
@@ -31,6 +32,9 @@
                 </td>
                 <td>
                   <span class="badge badge-dot mr-4">{{$producto->nombre}}</span>
+                </td>
+                <td>
+                  <img src="{{asset($producto->imagen)}}" alt="{{$producto->nombre}}" class="img-fluid" width="120px">
                 </td>
                 <td>
                   <span class="badge badge-dot mr-4">{{$producto->precio}}</span>

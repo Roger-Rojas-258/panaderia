@@ -32,14 +32,22 @@ class ProductoController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
-        $producto = new Producto();
-        $producto->nombre = $request->post('nombre');
-        $producto->precio = $request->post('precio');
-        $producto->id_tipo = $request->post('id_tipo');
-        $producto->save();
-        return redirect()->route('producto.index');
+    {   $producto = new Producto();
+        if($request->hasFile('imagen')){
+            $file = $request()->file('imagen');
+            $destinationPath = "imagen/";
+            $fileNombre = 'imagen'.time();
+            $uploadSucces = $request->file('imagen')->move($destinationPath,$fileNombre);
+            $producto->imagen = $destinationPath . $fileNombre;
+        }
+        
+        $producto->nombre = $request->input('nombre');
+        $producto->precio = $request->input('precio');
+        $producto->id_tipo = $request->input('id_tipo');
+        $producto->save(); // Guardar el producto en la base de datos
+
+        return redirect()->route('producto.index')
+                     ->with('success', 'Producto creado exitosamente');
     }
 
     /**
@@ -71,6 +79,9 @@ class ProductoController extends Controller
         $producto->id_tipo =  $request->post('id_tipo');
         $producto->save();
         return redirect()->route('producto.index');
+        // Validación de los campos del producto
+        // Validación de los campos del producto
+    
     }
 
     /**

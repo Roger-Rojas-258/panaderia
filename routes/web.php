@@ -15,7 +15,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CarritoController;
-
+use App\Http\Controllers\UbicacionController;
 use App\Models\Detalleventa;
 use App\Models\Producto;
 use App\Models\Productooferta;
@@ -184,5 +184,5 @@ Route::middleware(['auth'])->group(function () {
 // login
 Auth::routes();
 
-// carrito
+//carrito
 Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');

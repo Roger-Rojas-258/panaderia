@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\NotapedidoController;
 use App\Http\Controllers\NotaventaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProductoofertaController;
+use App\Http\Controllers\UbicacionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +26,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('productosoferta/guardar', [ProductoofertaController::class, 'guadarDatos']);
 
 Route::post('venta/guardar', [NotaventaController::class, 'guardarVenta']);
+
+Route::post('ubicacion/guardar', [UbicacionController::class, 'guardarUbicacion']);
+Route::post('notapedido/guardar', [NotapedidoController::class, 'guardarPedido']);
