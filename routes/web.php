@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EmpleadoController;
-use App\Http\Controllers\NotapedidoController;
 use App\Http\Controllers\NotaventaController;
 use App\Http\Controllers\PrivilegioController;
 use App\Http\Controllers\ProductoController;
@@ -14,11 +13,15 @@ use App\Http\Controllers\TipovehiculoController;
 use App\Http\Controllers\TipopagoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VehiculoController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\UbicacionController;
 use App\Models\Detalleventa;
 use App\Models\Producto;
 use App\Models\Productooferta;
 use App\Models\Tipoproducto;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,10 +34,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/', function () {
-    return view('viewsCliente.index');
-});*/
-Route::get('/', [NotapedidoController::class, 'index'])->name('notapedido.index');
+Route::get('/inicio', function () {
+    return view('inicio');
+})->name('inicio');
+
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome');
+
 /*GUIA
 Route::get('cliente/create', [ClienteController::class, 'create'])->name('cliente.create');
 Route::get('cliente/edit/{id_cliente}', [ClienteController::class, 'edit'])->name('cliente.edit');
@@ -199,4 +206,13 @@ Route::get('venta/eliminados', [NotaventaController::class, 'eliminados'])->name
 
 Route::get('venta/restablecer/{tipoId}', [NotaventaController::class, 'cambiarEstado'])->name('venta.restablecer');
 
-//Nota pedido
+// carrito
+Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
+
+
+
+// login
+Auth::routes();
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+//Route::get('productosoferta/', [ProductoofertaController::class, 'index'])->name('home');

@@ -2,7 +2,7 @@
   <!-- Nav items -->
   <ul class="navbar-nav">
     <li class="nav-item">
-      <a class="nav-link" href="http://localhost/panaderia/public">
+      <a class="nav-link" href="{{route('inicio')}}">
         <i class="ni ni-tv-2 text-primary"></i>
         <span class="nav-link-text">Dashboard</span>
       </a>
@@ -85,14 +85,6 @@
         <span class="nav-link-text">Tipo pago</span>
       </a>
     </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="{{route('tipopago.index')}}">
-        <i class="ni ni-single-02 text-yellow"></i>
-        <span class="nav-link-text">Esta es mi rama Roger</span>
-      </a>
-    </li>
-
 
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
