@@ -5,10 +5,10 @@
   <div class="col">
     <div class="card shadow">
       <div class="card-header border-0">
-        <h3 class="mb-0">Tipo vehidulo</h3>
+        <h3 class="mb-0">Tipo vehículo</h3>
       </div>
       <div class="card-header border-0">
-        <a href="{{route('tipovehiculo.create')}}" class="btn btn-primary me-md-1 btn-sm p-2"><i class="fas fa-plus"></i> Agregar</a>
+        <a href="{{route('tipovehiculo.create')}}" class="btn btn-primary me-md-1 btn-sm p-2"><i class="fas fa-plus"></i>Agregar</a>
         <a href="{{route('tipovehiculo.eliminados')}}" class="btn btn-warning btn-sm p-2">Eliminados</a>
       </div>
       <div class="table-responsive">

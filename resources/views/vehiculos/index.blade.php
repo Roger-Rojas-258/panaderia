@@ -8,7 +8,7 @@
         <h3 class="mb-0">Vehiculo</h3>
       </div>
       <div class="card-header border-0">
-        <a href="{{route('vehiculo.create')}}" class="btn btn-primary me-md-1 btn-sm p-2"><i class="fas fa-plus"></i> Agregar</a>
+        <a href="{{route('vehiculo.create')}}" class="btn btn-primary me-md-1 btn-sm p-2"><i class="fas fa-plus"></i>Agregar</a>
         <a href="{{route('vehiculo.eliminados')}}" class="btn btn-warning btn-sm p-2">Eliminados</a>
       </div>
       <div class="table-responsive">
