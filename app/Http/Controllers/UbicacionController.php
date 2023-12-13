@@ -62,20 +62,15 @@ class UbicacionController extends Controller
         //
     }
     public function guardarUbicacion(Request $request){
-    $datos = $request->json()->all();
-
-    /*if (!empty($datos['longitud']) && !empty($datos['latitud']) && !empty($datos['direccion'])) {*/
+        $datos = $request->json()->all();
+        //dd($datos);
+        
         $ubicacion = new Ubicacion();
-        $ubicacion->longitud = $datos['longitud'];
-        $ubicacion->latitud = $datos['latitud'];
-        $ubicacion->referencia = $datos['referencia'];
-        $ubicacion->descripcion = $datos['descripcion'];
+        $ubicacion->longitud = $datos[0]['longitud'];
+        $ubicacion->latitud = $datos[0]['latitud'];
+        $ubicacion->referencia = $datos[0]['referencia'];
+        $ubicacion->descripcion = $datos[0]['descripcion'];
+        
         $ubicacion->save();
-        // Puedes devolver una respuesta JSON indicando el éxito.
-        return response()->json(['status' => 200, 'message' => 'Ubicación guardada correctamente']);
-    /*} else {
-        // Puedes devolver una respuesta JSON indicando que faltan datos.
-        return response()->json(['status' => 400, 'message' => 'Faltan datos necesarios']);
-    }*/
     }
 }
