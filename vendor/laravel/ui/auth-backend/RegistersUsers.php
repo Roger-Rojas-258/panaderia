@@ -64,8 +64,7 @@ trait RegistersUsers
      */
     protected function registered(Request $request, $user)
     {
-        $rol = Rol::find($user['id_rol']);
-
+         $rol = Rol::find($user['id_rol']);
         session_start();
         // Asignar un valor a una variable de sesión
         $_SESSION['rol'] = $rol->nombre;
@@ -73,12 +72,16 @@ trait RegistersUsers
         session_write_close();
 
         if ($rol->nombre == 'Administrador') {
+            $_SESSION['id_empleado'] = $user->id_empleado;
             return redirect()->route('inicio');
         } else if ($rol->nombre == 'Cajero') {
+            $_SESSION['id_empleado'] = $user->id_empleado;
             return redirect()->route('productosoferta.index');
         } else if ($rol->nombre == 'Repartidor') {
+            $_SESSION['id_repartidor'] = $user->id_repartidor;
             return redirect()->route('productosoferta.index');
         } else if ($rol->nombre == 'Cliente') {
+            $_SESSION['id_cliente'] = $user->id_cliente;
             return redirect()->route('carrito.index');
         }
     }

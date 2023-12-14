@@ -30,8 +30,15 @@
 
                       <div class="form-group focused">
                           <label for="imagen-edit" class="col-sm-4 col-form-label">Imagen:</label>
+                          <input type="file" class="custom-file-input" id="imagen-edit" accept="image/*" name="imagen" onchange="mostrarVistaPreviaEdit()">                       </div>
+                        <!-- Muestra la imagen actual -->                       @if ($productos->imagen)
+                         <img src="{{ asset($productos->imagen) }}" alt="Imagen actual" style="max-width: 100%; height: auto;">
+@endif
+
+                      <!--<div class="form-group focused">
+                          <label for="imagen-edit" class="col-sm-4 col-form-label">Imagen:</label>
                           <input type="file" class="custom-file-input" id="imagen-edit" accept="image/*"                      name="imagen" onchange="mostrarVistaPreviaEdit()">
-                      </div>
+                      </div>-->
 
                       <!-- Muestra la imagen actual -->
                       @if(isset($urlImagenActual))
@@ -63,3 +70,4 @@
           </div>
 </div>
 @endsection
+

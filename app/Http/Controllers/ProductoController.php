@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use App\Models\Tipoproducto;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -34,7 +35,7 @@ class ProductoController extends Controller
     public function store(Request $request)
     {   $producto = new Producto();
         if($request->hasFile('imagen')){
-            $file = $request()->file('imagen');
+            $file = $request->file('imagen'); 
             $destinationPath = "imagen/";
             $fileNombre = 'imagen'.time();
             $uploadSucces = $request->file('imagen')->move($destinationPath,$fileNombre);
@@ -71,18 +72,32 @@ class ProductoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
-    {
-        $producto = Producto::find($id);
-        $producto->nombre =  $request->post('nombre');
-        $producto->precio =  $request->post('precio');
-        $producto->id_tipo =  $request->post('id_tipo');
-        $producto->save();
-        return redirect()->route('producto.index');
-        // Validación de los campos del producto
-        // Validación de los campos del producto
     
+public function update(Request $request, $id)
+{
+    $producto = Producto::find($id);
+    $producto->nombre = $request->input('nombre');
+    $producto->precio = $request->input('precio');
+    $producto->id_tipo = $request->input('id_tipo');
+
+    // Validar si se ha cargado una nueva imagen
+    if ($request->hasFile('imagen')) {
+        // Eliminar la imagen existente si hay una
+        if (!empty($producto->imagen) && File::exists(public_path($producto->imagen))) {
+            File::delete(public_path($producto->imagen));
+        }
+
+        // Subir la nueva imagen
+        $file = $request->file('imagen');
+        $destinationPath = public_path("imagen/");
+        $fileNombre = 'imagen' . time();
+        $uploadSucces = $file->move($destinationPath, $fileNombre);
+        $producto->imagen = "imagen/" . $fileNombre;
     }
+
+    $producto->save();
+    return redirect()->route('producto.index');
+}
 
     /**
      * Remove the specified resource from storage.

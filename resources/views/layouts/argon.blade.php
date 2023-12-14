@@ -22,6 +22,26 @@
   <link rel="stylesheet" href="{{asset('assets/css/argon.css?v=1.2.0')}}" type="text/css">
   {{-- DataTables CSS --}}
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="{{asset('carrito/animacion.css')}}">
+  <style>
+    .logo {
+    border: 6px solid #525f7f !important;
+    box-shadow: 10px 5px 10px#525f7f !important;
+    animation: flotante 4s linear infinite;
+}
+
+@keyframes flotante {
+    0% {
+        transform: translateY(15px);
+    }
+    50% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(15px);
+    }
+}
+  </style>
 </head>
 
 <body>
@@ -36,7 +56,7 @@
       </div> --}}
       <div class="  align-items-center">
         <a class="" href="{{route('inicio')}}">
-          <img src="{{asset('/assets/assets/img/brand/angelesLogo.jpeg')}}" class=" rounded-circle mt-4 ml-4 mr-4 mb-0" style="width:70%">
+          <img src="{{asset('/assets/assets/img/brand/angelesLogo.jpeg')}}" class=" rounded-circle mt-4 ml-4 mr-4 mb-0 logo" style="width:70%">
         </a>
       </div>
 

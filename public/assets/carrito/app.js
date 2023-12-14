@@ -65,18 +65,18 @@ function agregarAlCarritoClicked(event) { // todos los datos de los productos a 
     //console.log(imagenSrc);
     //----------------------------------oBJETO DEL PRODUCTO
     let cantidad = 1;
-  
-    let producto = {
-        id: id_producto,
-        precio: precio,
-        nombre: nombre,
-        cantidad: cantidad,
-        subtotal: precio * cantidad,
-        productooferta: productooferta,
-        stock: stock,
+    const producto = {
+        id: this.getAttribute("data-id_producto"),
+        precio: this.getAttribute("data-precio"),
+        nombre: this.getAttribute("data-producto"),
+        cantidad: 1,
+        subtotal: cantidad * parseFloat(precio),
+        productooferta: this.getAttribute("data-idproductooferta"),
     };
+    carrito.push(producto);
     console.log(producto);
-    //carrito.push(producto);
+
+    agregarItemAlCarrito(titulo, precio, imagenSrc);
 
     agregarItemAlCarrito(imagenSrc, producto);
     
@@ -116,17 +116,16 @@ function agregarItemAlCarrito(imagenSrc, producto) {
         <div class="carrito-item">
             <img src="${imagenSrc}" width="80px" alt="">
             <div class="carrito-item-detalles">
-                <input type="hidden" value="${producto['id']}" class="carrito-item-cantidad" >
-                <span class="carrito-item-titulo">${producto['producto']}</span>
+                <span class="carrito-item-titulo titulo">${titulo}</span>
                 <div class="selector-cantidad">
-                    <i class="fa-solid fa-minus restar-cantidad"></i>
-                    <input type="text" value="1" class="carrito-item-cantidad" disabled>
-                    <i class="fa-solid fa-plus sumar-cantidad"></i>
+                    <i class="fa-solid fa-minus restar-cantidad menos"></i>
+                    <input type="text" value="1" class="carrito-item-cantidad cantidad" disabled>
+                    <i class="fa-solid fa-plus sumar-cantidad mas"></i>
                 </div>
-                <span class="carrito-item-precio">${producto['precio']}</span>
+                <span class="carrito-item-precio titulo">${precio}</span>
             </div>
             <button class="btn-eliminar">
-                <i class="fa-solid fa-trash"></i>
+                <i class="fa-solid fa-trash icono"></i>
             </button>
         </div>
     `;
@@ -296,7 +295,10 @@ function pagarClicked() {
             data: data,
             success: function (response) {
                 if (response.status == 200) {
-                    console.log("guardado");
+                    if (response.redirect) {
+                        console.log("guardado");
+                        window.location.href = response.redirect;
+                    }
                 } else {
                     console.log("error Servidor");
                 }
