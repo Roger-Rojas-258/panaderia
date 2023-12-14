@@ -1,4 +1,6 @@
 let carrito = [];
+console.log('Roger Rojas');
+import { bottom } from "@popperjs/core/index.js";
 //importar los datos del vector
 import { vector } from "./guardarDatosMapas.js";
 //Variable que mantiene el estado visible del carrito
@@ -12,6 +14,7 @@ if (document.readyState == "loading") {
 }
 
 function ready() {
+    console.log('entra');
     //Agregremos funcionalidad a los botones eliminar del carrito
     var botonesEliminarItem = document.getElementsByClassName("btn-eliminar");
     for (var i = 0; i < botonesEliminarItem.length; i++) {
@@ -49,27 +52,34 @@ function ready() {
 }
 
 //Funciòn que controla el boton clickeado de agregar al carrito
-function agregarAlCarritoClicked(event) {
-    var button = event.target;
-    var item = button.parentElement;
-    var titulo = item.getElementsByClassName("titulo-item")[0].innerText;
-    var precio = item.getElementsByClassName("precio-item")[0].innerText;
-    var imagenSrc = item.getElementsByClassName("img-item")[0].src;
-    console.log(imagenSrc);
+function agregarAlCarritoClicked(event) { // todos los datos de los productos a la venta
+    let button = event.target;
+    let item = button.parentElement; // accedemos al elemet padre (es el div que cotiene un producto que sacamos a la venta)
+    //var titulo = button.getAttribute("data-producto");
+    let id_producto = button.getAttribute("data-id_producto");
+    let nombre = button.getAttribute("data-producto");
+    let precio = parseFloat(button.getAttribute("data-precio"));
+    let stock = parseInt(button.getAttribute("data-stock")); 
+    let  productooferta = button.getAttribute("data-idproductooferta");
+    let imagenSrc = item.getElementsByClassName("img-item")[0].src;
+    //console.log(imagenSrc);
     //----------------------------------oBJETO DEL PRODUCTO
     let cantidad = 1;
-    const producto = {
-        id: this.getAttribute("data-id_producto"),
-        precio: this.getAttribute("data-precio"),
-        nombre: this.getAttribute("data-producto"),
-        cantidad: 1,
-        subtotal: cantidad * precio,
-        productooferta: this.getAttribute("data-idproductooferta"),
+  
+    let producto = {
+        id: id_producto,
+        precio: precio,
+        nombre: nombre,
+        cantidad: cantidad,
+        subtotal: precio * cantidad,
+        productooferta: productooferta,
+        stock: stock,
     };
-    carrito.push(producto);
+    console.log(producto);
+    //carrito.push(producto);
 
-    agregarItemAlCarrito(titulo, precio, imagenSrc);
-
+    agregarItemAlCarrito(imagenSrc, producto);
+    
     hacerVisibleCarrito();
 }
 
@@ -85,33 +95,35 @@ function hacerVisibleCarrito() {
 }
 
 //Funciòn que agrega un item al carrito
-function agregarItemAlCarrito(titulo, precio, imagenSrc) {
+function agregarItemAlCarrito(imagenSrc, producto) {
     var item = document.createElement("div");
     item.classList.add = "item";
     var itemsCarrito = document.getElementsByClassName("carrito-items")[0];
 
     //controlamos que el item que intenta ingresar no se encuentre en el carrito
-    var nombresItemsCarrito = itemsCarrito.getElementsByClassName(
+    var nombresItemsCarrito = itemsCarrito.getElementsByClassName( // el código buscará todos los elementos descendientes de itemsCarrito que tengan la clase "carrito-item-titulo" y devolverá una colección de esos elementos.
         "carrito-item-titulo"
     );
     for (var i = 0; i < nombresItemsCarrito.length; i++) {
-        if (nombresItemsCarrito[i].innerText == titulo) {
+        if (nombresItemsCarrito[i].innerText == producto['nombre']) {
             alert("El item ya se encuentra en el carrito");
             return;
         }
     }
+    
 
     var itemCarritoContenido = `
         <div class="carrito-item">
             <img src="${imagenSrc}" width="80px" alt="">
             <div class="carrito-item-detalles">
-                <span class="carrito-item-titulo">${titulo}</span>
+                <input type="hidden" value="${producto['id']}" class="carrito-item-cantidad" >
+                <span class="carrito-item-titulo">${producto['producto']}</span>
                 <div class="selector-cantidad">
                     <i class="fa-solid fa-minus restar-cantidad"></i>
                     <input type="text" value="1" class="carrito-item-cantidad" disabled>
                     <i class="fa-solid fa-plus sumar-cantidad"></i>
                 </div>
-                <span class="carrito-item-precio">${precio}</span>
+                <span class="carrito-item-precio">${producto['precio']}</span>
             </div>
             <button class="btn-eliminar">
                 <i class="fa-solid fa-trash"></i>
@@ -119,8 +131,8 @@ function agregarItemAlCarrito(titulo, precio, imagenSrc) {
         </div>
     `;
     item.innerHTML = itemCarritoContenido;
-    itemsCarrito.append(item);
-
+    itemsCarrito.append(item); // agregammos como elemento hijo a item
+    carrito.push(producto);
     //Agregamos la funcionalidad eliminar al nuevo item
     item.getElementsByClassName("btn-eliminar")[0].addEventListener(
         "click",
@@ -175,9 +187,9 @@ function sumarCantidad(event) {
 function restarCantidad(event) {
     var buttonClicked = event.target;
     var selector = buttonClicked.parentElement;
-    console.log(
-        selector.getElementsByClassName("carrito-item-cantidad")[0].value
-    );
+    // console.log(
+    //     selector.getElementsByClassName("carrito-item-cantidad")[0].value
+    // );
     var cantidadActual = selector.getElementsByClassName(
         "carrito-item-cantidad"
     )[0].value;
@@ -186,22 +198,25 @@ function restarCantidad(event) {
         selector.getElementsByClassName("carrito-item-cantidad")[0].value =
             cantidadActual;
         actualizarTotalCarrito();
+        
+
     }
 }
 
 //Elimino el item seleccionado del carrito
 function eliminarItemCarrito(event) {
     var buttonClicked = event.target;
-    buttonClicked.parentElement.parentElement.remove();
+    buttonClicked.parentElement.parentElement.remove(); // Accede al elemento padre del elemento que contiene al botón, es decir, al "abuelo" del botón.
+    carrito.pop();
     //Actualizamos el total del carrito
     actualizarTotalCarrito();
 
     //la siguiente funciòn controla si hay elementos en el carrito
     //Si no hay elimino el carrito
-    ocultarCarrito();
+    ocultarCarrito(); // verificanos si no hay productos en el carrito
 }
 //Funciòn que controla si hay elementos en el carrito. Si no hay oculto el carrito.
-function ocultarCarrito() {
+function ocultarCarrito() { // para agrandar el contenedor de items y ocultar el carrito cuando no hay productos en el carrito
     var carritoItems = document.getElementsByClassName("carrito-items")[0];
     if (carritoItems.childElementCount == 0) {
         var carrito = document.getElementsByClassName("carrito")[0];
@@ -214,7 +229,7 @@ function ocultarCarrito() {
     }
 }
 //Actualizamos el total de Carrito
-function actualizarTotalCarrito() {
+function actualizarTotalCarrito() { // para calcular y actualizar la cantidad de cada producto y el total del carrito
     //seleccionamos el contenedor carrito
     var carritoContenedor = document.getElementsByClassName("carrito")[0];
     var carritoItems = carritoContenedor.getElementsByClassName("carrito-item");
@@ -228,7 +243,7 @@ function actualizarTotalCarrito() {
         )[0];
 
         // Utilizamos expresiones regulares para extraer solo los dígitos y los decimales
-        var precioMatch = precioElemento.innerText.match(/[\d,]+(\.\d{1,2})?/);
+        var precioMatch = precioElemento.innerText.match(/[\d,]+(\.\d{1,2})?/); // para usar una expresion regular
 
         if (precioMatch) {
             var precio = parseFloat(precioMatch[0].replace(",", ""));
@@ -236,7 +251,7 @@ function actualizarTotalCarrito() {
                 "carrito-item-cantidad"
             )[0];
             var cantidad = cantidadItem.value;
-            total += precio * cantidad;
+            total += precio * parseInt(cantidad);
         }
     }
 
@@ -244,6 +259,8 @@ function actualizarTotalCarrito() {
 
     document.getElementsByClassName("carrito-precio-total")[0].innerText =
         total.toLocaleString("es") + ".00";
+
+    
 }
 
 //vamos a preguntar si inicio session y si el vector ubicacion esta vacio si esta vacio pues un mensaje para que ponga su ubicacion
@@ -251,7 +268,7 @@ function actualizarTotalCarrito() {
 //completar compra
 //Eliminamos todos los elementos del carrito y lo ocultamos
 function pagarClicked() {
-    console.log(vector);
+    
     if (Object.keys(vector).length > 0) {
         const extra = {
             total_precio: document.getElementsByClassName(
@@ -265,7 +282,7 @@ function pagarClicked() {
             id_repartidor: 1,
             id_pago: 1,
             productos: carrito,
-            //ubicacion: vector,
+            ubicacion: vector,
         };
         console.log(extra); // esta enviando muy bien solo falta pasarlo al controlador y tambien corregir algunos bug
 
