@@ -15,6 +15,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\NotapedidoController;
 use App\Http\Controllers\UbicacionController;
 use App\Models\Detalleventa;
 use App\Models\Producto;
@@ -186,3 +187,9 @@ Auth::routes();
 
 //carrito
 Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
+
+
+//nota pedido
+Route::get('pedidos/pendiente', [NotapedidoController::class, 'Pendiente'])->name('pedidos.pendiente');
+Route::get('pedidos/entregado', [NotapedidoController::class, 'Entregado'])->name('pedidos.entregado');
+Route::get('pedidos/asignado', [NotapedidoController::class, 'repartidorAsignado'])->name('pedidos.asignado');

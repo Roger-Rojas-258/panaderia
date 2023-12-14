@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('id_ubicacion');
             $table->string('longitud');
             $table->string('latitud');
-            $table->string('referencia', 40);
-            $table->string('descripcion', 50);
+            $table->string('referencia', 240);
+            $table->string('descripcion', 250);
             $table->timestamps();
         });
     }

@@ -63,10 +63,11 @@ function agregarAlCarritoClicked(event) {
         precio: this.getAttribute("data-precio"),
         nombre: this.getAttribute("data-producto"),
         cantidad: 1,
-        subtotal: cantidad * precio,
+        subtotal: cantidad * parseFloat(precio),
         productooferta: this.getAttribute("data-idproductooferta"),
     };
     carrito.push(producto);
+    console.log(producto);
 
     agregarItemAlCarrito(titulo, precio, imagenSrc);
 
@@ -105,16 +106,16 @@ function agregarItemAlCarrito(titulo, precio, imagenSrc) {
         <div class="carrito-item">
             <img src="${imagenSrc}" width="80px" alt="">
             <div class="carrito-item-detalles">
-                <span class="carrito-item-titulo">${titulo}</span>
+                <span class="carrito-item-titulo titulo">${titulo}</span>
                 <div class="selector-cantidad">
-                    <i class="fa-solid fa-minus restar-cantidad"></i>
-                    <input type="text" value="1" class="carrito-item-cantidad" disabled>
-                    <i class="fa-solid fa-plus sumar-cantidad"></i>
+                    <i class="fa-solid fa-minus restar-cantidad menos"></i>
+                    <input type="text" value="1" class="carrito-item-cantidad cantidad" disabled>
+                    <i class="fa-solid fa-plus sumar-cantidad mas"></i>
                 </div>
-                <span class="carrito-item-precio">${precio}</span>
+                <span class="carrito-item-precio titulo">${precio}</span>
             </div>
             <button class="btn-eliminar">
-                <i class="fa-solid fa-trash"></i>
+                <i class="fa-solid fa-trash icono"></i>
             </button>
         </div>
     `;
@@ -265,7 +266,7 @@ function pagarClicked() {
             id_repartidor: 1,
             id_pago: 1,
             productos: carrito,
-            //ubicacion: vector,
+            ubicacion: vector,
         };
         console.log(extra); // esta enviando muy bien solo falta pasarlo al controlador y tambien corregir algunos bug
 
@@ -279,7 +280,10 @@ function pagarClicked() {
             data: data,
             success: function (response) {
                 if (response.status == 200) {
-                    console.log("guardado");
+                    if (response.redirect) {
+                        console.log("guardado");
+                        window.location.href = response.redirect;
+                    }
                 } else {
                     console.log("error Servidor");
                 }

@@ -63,11 +63,15 @@
         <span class="nav-link-text">PEDIDOS</span>
       </a>
       <div class="dropdown-menu">
-        <a class="nav-link" href="{{route('roles.index')}}">
+        <a class="nav-link" href="{{route('pedidos.pendiente')}}">
+          <i class="fas fa-truck-loading text-yellow"></i>
+          <span class="nav-link-text">Pendiente</span>
+        </a>
+        <a class="nav-link" href="{{route('pedidos.asignado')}}">
           <i class="fas fa-truck-loading text-yellow"></i>
           <span class="nav-link-text">Por entregar</span>
         </a>
-        <a class="nav-link" href="{{route('privilegio.index')}}">
+        <a class="nav-link" href="{{route('pedidos.entregado')}}">
           <i class="fas fa-check-circle text-yellow"></i>
           <span class="nav-link-text">Entregados</span>
         </a>

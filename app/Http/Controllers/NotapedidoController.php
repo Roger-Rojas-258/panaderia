@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use App\Models\Detallepedido;
 use App\Models\Notapedido;
+use App\Models\Notaventa;
 use App\Models\Ofertadia;
 use App\Models\Producto;
 use App\Models\Productooferta;
+use App\Models\Repartidor;
+use App\Models\Repartidorvehiculo;
 use App\Models\Tipopago;
 use App\Models\Tipoproducto;
 use App\Models\Ubicacion;
@@ -77,67 +80,107 @@ class NotapedidoController extends Controller
         //
     }
     public function guardarPedido(Request $request){
-        if(Auth()->user()!=null){
-            dd('exito');
+        session_start();
+            if($_SESSION['id_cliente']){
+                $datos = $request->json()->all();
+            if (!empty($datos)) {
+
+            $fechaActual = Carbon::now();
+            $fechaActual = $fechaActual->format('Y-m-d');
+
+            //dd($datos);
+            
+            $ubicacion = new Ubicacion();
+            $ubicacion->longitud = $datos['ubicacion']['longitud'];
+            $ubicacion->latitud = $datos['ubicacion']['latitud'];
+            $ubicacion->referencia = $datos['ubicacion']['referencia'];
+            $ubicacion->descripcion = $datos['ubicacion']['descripcion'];
+            
+            $ubicacion->save();//
+            //-----
+            //     pedido------------------------------------
+            $pedido = new Notapedido();
+            $pedido->fecha = $fechaActual;
+            $pedido->total_precio = $datos['total_precio'];
+            $pedido->costo_envio = $datos['costo_envio'];
+            $pedido->estado_entrega = $datos['estado_entrega'];
+            $pedido->tiempo_estimado = $datos['id_cliente'];
+            $pedido->id_cliente = $_SESSION['id_cliente'];
+            $pedido->id_ubicacion = $ubicacion->id_ubicacion;
+            $pedido->id_repartidorvehiculo = $datos['id_repartidor'];
+            $pedido->id_pago = $datos['id_pago'];
+            $pedido->save();
+            
+            // Extraer información de venta
+            $id_pedido = $pedido->id_pedido;
+
+            // Guardar en detalle venta
+            foreach ($datos['productos'] as $dato) {
+                //if (isset($dato['id_productooferta'])) {
+                    $detallepedido = new Detallepedido();
+                    $detallepedido->cantidad = $dato['cantidad'];
+                    $detallepedido->sub_total = $dato['subtotal'];
+                    $detallepedido->id_productooferta = $dato['productooferta'];
+                    $detallepedido->id_pedido = $id_pedido;
+                    $detallepedido->save();
+                //}
+            }
+
+            return response()->json(['redirect' => route('roles.index')]);
+
+            // return response()->json([
+            //     'mensaje' => 'Datos recibidos y procesados correctamente',
+            //     'status' => 200
+            // ]);
+            } else {
+            return response()->json(['mensaje' => 'No se recibieron datos'], 400);
+            }
+        } else{
+            dd('No inicio session');
+        }
         
-        $cliente= Cliente::find(Auth()->user()['id_cliente']);
-        
+
+    }
+    //devolver solo los pedidos que esteen en estado pendiente
+    public function Pendiente(){
+        $pedidos = Notapedido::where('estado_entrega','PENDIENTE')->get();
+        $clientes = Cliente::all();
+        $ubicaciones = Ubicacion::all();
+        $pagos = Tipopago::where('estado',1)->get();
+        $repartidores = Repartidor::where('estado',1)->get();
+        return view('pedidos.porentregar', compact('pedidos', 'clientes','ubicaciones','pagos','repartidores'));
+    }
+//ESTO SE ASIGANRA CUANDO EL REPARTIDOR APRETE A OPCION ENTREGADO EN SU VISTA
+    public function Entregado(){
+        $pedidos = Notapedido::where('estado_entrega','ENTREGADO')->get();
+        $clientes = Cliente::all();
+        $ubicaciones = Ubicacion::all();
+        $pagos = Tipopago::where('estado',1)->get();
+        $repartidoresvehiculo=Repartidorvehiculo::all();
+        $repartidores = Repartidor::where('estado',1)->get();
+        return view('pedidos.entregado', compact('pedidos', 'clientes','ubicaciones','pagos','repartidores','repartidoresvehiculo'));
+    }
+
+    //funcion asignarRepartidor
+    public function asignarRepartidor(Request $request){
         $datos = $request->json()->all();
         if (!empty($datos)) {
-
-        $fechaActual = Carbon::now();
-        $fechaActual = $fechaActual->format('Y-m-d');
-
-        //dd($datos);
-        
-        /*$ubicacion = new Ubicacion();
-        $ubicacion->longitud = $datos['ubicacion']['longitud'];
-        $ubicacion->latitud = $datos['ubicacion']['latitud'];
-        $ubicacion->referencia = $datos['ubicacion']['referencia'];
-        $ubicacion->descripcion = $datos['ubicacion']['descripcion'];
-        
-        $ubicacion->save();*/
-        //-----
-        //     pedido------------------------------------
-        $pedido = new Notapedido();
-        $pedido->fecha = $fechaActual;
-        $pedido->total_precio = $datos['total_precio'];
-        $pedido->costo_envio = $datos['costo_envio'];
-        $pedido->estado_entrega = $datos['estado_entrega'];
-        $pedido->tiempo_estimado = $datos['id_cliente'];
-        $pedido->id_cliente = $cliente->id_cliente;
-        $pedido->id_ubicacion = 1;
-        $pedido->id_repartidorvehiculo = $datos['id_repartidor'];
-        $pedido->id_pago = $datos['id_pago'];
-        $pedido->save();
-        
-        // Extraer información de venta
-        $id_pedido = $pedido->id_pedido;
-
-        // Guardar en detalle venta
-        foreach ($datos['productos'] as $dato) {
-            //if (isset($dato['id_productooferta'])) {
-                $detallepedido = new Detallepedido();
-                $detallepedido->cantidad = $dato['cantidad'];
-                $detallepedido->sub_total = $dato['subtotal'];
-                $detallepedido->id_productooferta = $dato['productooferta'];
-                $detallepedido->id_pedido = $id_pedido;
-                $detallepedido->save();
-            //}
+            $pedido = Notapedido::find($datos['id_nota']);
+            $pedido->id_repartidorvehiculo = $datos['id_repartidor'];
+            $pedido->estado_entrega = "POR ENTREGAR";
+            $pedido->save();
+            return redirect()->route('pedidos.pendiente');
+        } else{
+            dd("No ingreso");
         }
-
-        return response()->json([
-            'mensaje' => 'Datos recibidos y procesados correctamente',
-            'status' => 200
-        ]);
-        } else {
-        return response()->json(['mensaje' => 'No se recibieron datos'], 400);
-        }
-        return redirect()->route('venta.list');
-
-        }else{
-            dd('no exito');
-        }
-
+    }
+    public function repartidorAsignado(){
+        $pedidos = Notapedido::where('estado_entrega','POR ENTREGAR')->get();
+        $clientes = Cliente::all();
+        $ubicaciones = Ubicacion::all();
+        $pagos = Tipopago::where('estado',1)->get();
+        $repartidoresvehiculo=Repartidorvehiculo::all();
+        $repartidores = Repartidor::where('estado',1)->get();
+        return view('pedidos.repartidorasignado', compact('pedidos', 'clientes','ubicaciones','pagos','repartidores','repartidoresvehiculo'));
     }
 }

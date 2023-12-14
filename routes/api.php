@@ -29,3 +29,5 @@ Route::post('venta/guardar', [NotaventaController::class, 'guardarVenta']);
 
 Route::post('ubicacion/guardar', [UbicacionController::class, 'guardarUbicacion']);
 Route::post('notapedido/guardar', [NotapedidoController::class, 'guardarPedido']);
+
+Route::post('notapedido/asignarRepartidor', [NotapedidoController::class, 'asignarRepartidor']);
