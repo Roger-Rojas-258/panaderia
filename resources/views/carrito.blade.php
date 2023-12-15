@@ -73,4 +73,6 @@
     <script src="{{asset('/assets/carrito/mapas.js')}}"></script>
     <!--Datos dwl mapa guardar-->
     <script type="module" src="{{asset('assets/carrito/guardarDatosMapas.js')}}"></script>
+    <!--Libreria Para los alert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @endsection

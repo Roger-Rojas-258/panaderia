@@ -29,6 +29,10 @@ repartidor.forEach(function (btn) {
             success: function (response) {
                 if (response.status == 200) {
                     if (response.redirect) {
+                        const enlaceTemporal = document.createElement("a");
+                        enlaceTemporal.href =
+                            "http://localhost/panaderia/public/pedidos/pendiente";
+                        enlaceTemporal.click();
                         console.log("guardado");
                     }
                 } else {

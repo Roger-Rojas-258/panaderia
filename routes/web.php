@@ -193,3 +193,8 @@ Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index
 Route::get('pedidos/pendiente', [NotapedidoController::class, 'Pendiente'])->name('pedidos.pendiente');
 Route::get('pedidos/entregado', [NotapedidoController::class, 'Entregado'])->name('pedidos.entregado');
 Route::get('pedidos/asignado', [NotapedidoController::class, 'repartidorAsignado'])->name('pedidos.asignado');
+
+Route::get('pedidos/detalle/{id}', [NotapedidoController::class, 'detallePedido'])->name('pedido.detalle');
+
+
+Route::get('pedidos/detalle/pdf/{id}', [NotapedidoController::class, 'pdf'])->name('pedido.pdf');

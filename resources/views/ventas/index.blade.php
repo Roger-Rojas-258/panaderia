@@ -200,7 +200,7 @@
                   <td class="align-middle p-1">{{$cliente->materno}}</td>
                   <td class="align-middle p-1">{{$cliente->telefono}}</td>
                   <td>
-                    <a class="badge bg-success select-option" id="agregarCliente"
+                    <a class="badge bg-success select-option agregarCliente"
                     rel="tooltip" data-placement="top" title="Seleccionar" data-id="{{$cliente->id_cliente}}" data-nombre="{{$cliente->nombre}}" style="padding: 10px" data-bs-dismiss="modal"> <i class="fa-solid fa-plus" style="font-size: 15px"></i></a>
                   </td>
                 </tr>
@@ -249,11 +249,16 @@ let productoOferta;
 //cliente
 const nombreProducto = document.getElementById('nombre');
 let id_cliente;
-const agregarCliente = document.getElementById('agregarCliente');
-agregarCliente.addEventListener('click', function(){
-  nombreProducto.value = this.getAttribute('data-nombre');
-  id_cliente = this.getAttribute('data-id');
-})
+const agregarCliente = document.querySelectorAll('.agregarCliente');
+
+agregarCliente.forEach(element => {
+  element.addEventListener('click', function(){
+    nombreProducto.value = this.getAttribute('data-nombre');
+    id_cliente = this.getAttribute('data-id');
+    console.log(id_cliente);
+  })
+});
+
 
 //---------------------------------------------------------------------
 cantidad.addEventListener('keyup',function(e){
@@ -393,12 +398,26 @@ completarVenta.addEventListener('click', function () {
     data: data,
     success: function (response) {
       if (response.status == 200) {
-        console.log('guardado');
+        Swal.fire({
+            title: "Se realizo correctamente el pedido!",
+            text: "Guardado correctamente!",
+            icon: "success",
+        });
       } else {
-        console.log('error Servidor');
+        Swal.fire({
+            title: "Se realizo correctamente el pedido!",
+            text: "Guardado correctamente!",
+            icon: "success",
+        });
       }
     },
     error: function (data, textStatus, jqXHR, error) {
+      Swal.fire({
+        icon: "error",
+        title: "Se produjo un error",
+        text: "Vuelve a intentarlo!",
+        footer: '<a href="#">Why do I have this issue?</a>',
+      });
       console.log(data);
       console.log(textStatus);
       console.log(jqXHR);
