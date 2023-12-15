@@ -1,5 +1,6 @@
 @extends('layouts.plantillaCliente')
 
+
     @section('titulo')
     Tienda de pan
     @endsection
@@ -30,8 +31,8 @@
                             <span class="titulo-item" style="color: #fff; font-weight: 900;">{{$producto->nombre}}</span>
                             <img src="{{asset('/assets/carrito/img/boxengasse.png')}}" alt="" class="img-item">
                             <span class="precio-item" style="color: #fff">Precio: <strong style="font-size:20px">{{$producto->precio}} </strong></span>
-                            <span class="stock-item" style="color: #fff">Stock: <strong style="font-size:20px">{{$dato->stock}}</strong></span>
-                            <button class="boton-item agregar" data-id_producto="{{$producto->id_producto}}" data-precio="{{$producto->precio}}" data-producto="{{$producto->nombre}}" data-stock="{{$dato->stock}}" data-idproductooferta="{{$dato->id_productooferta}}">Agregar al Carrito</button>
+                            <span class="" style="color: #fff">Stock: <strong class="stock-item" style="font-size:20px">{{$dato->stock}}</strong></span>
+                            <button class="boton-item agregar" data-id_producto="{{$producto->id_producto}}" data-precio="{{$producto->precio}}" data-stock="{{$dato->stock}}" data-producto="{{$producto->nombre}}" data-idproductooferta="{{$dato->id_productooferta}}">Agregar al Carrito</button>
                         </div>
                     @endif
                     
@@ -43,7 +44,7 @@
         </div>
 
         <!-- Carrito de Compras -->
-        <div class="carrito" id="carrito" style="background-color: #273036">
+            <div class="carrito" id="carrito" style="background-color: #273036">
             <div class="header-carrito">
                 <h2 style="color: #fff">Tu Carrito</h2>
                 <hr style="height: 1px; color: #000; border: none; background-color: #fff; margin: 0; box-shadow: 5px 5px 5px #fff;">
@@ -55,7 +56,7 @@
                 <div class="fila">
                     <strong>Tu Total</strong>
                     <span class="carrito-precio-total">
-                        0.0 Bs
+                        $120.000,00
                     </span>
                 </div>
                 <button class="btn-pagar">Pagar <i class="fa-solid fa-bag-shopping"></i> </button>
@@ -66,12 +67,8 @@
     @endsection
 
     @section('js')
-   
-    <script>
-        console.log('Roger Roja sfdsf');
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script type="module" src="{{asset('/assets/carrito/app.js')}}" async></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!--Mapa-->
     <script src="{{asset('/assets/carrito/mapas.js')}}"></script>
     <!--Datos dwl mapa guardar-->
