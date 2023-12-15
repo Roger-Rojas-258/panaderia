@@ -28,9 +28,9 @@
                 @foreach ($productoofertas as $dato)
                     @if ($producto->id_producto == $dato->id_producto)
                         <div class="item">
-                            <span class="titulo-item" style="color: #fff; font-weight: 900;">{{$producto->nombre}}</span>
-                            <img src="{{asset('/assets/carrito/img/boxengasse.png')}}" alt="" class="img-item">
-                            <span class="precio-item" style="color: #fff">Precio: <strong style="font-size:20px">{{$producto->precio}} </strong></span>
+                            <span class="titulo-item" style="color: #fff; font-weight: 900; margin-bottom:30px">{{$producto->nombre}}</span>
+                            <img src="{{asset($producto->imagen)}}" alt="{{$producto->nombre}}" class="img-item" width="160px" style="border-radius: 20px; box-shadow: 10px 10px 10px #000;">
+                            <span class="precio-item" style="color: #fff; margin-top:30px;">Precio: <strong style="font-size:20px">{{$producto->precio}} </strong></span>
                             <span class="precio-item" style="color: #fff">Stock: <strong style="font-size:20px">{{$dato->stock}}</strong></span>
                             <button class="boton-item agregar" data-id_producto="{{$producto->id_producto}}" data-precio="{{$producto->precio}}" data-producto="{{$producto->nombre}}" data-idproductooferta="{{$dato->id_productooferta}}">Agregar al Carrito</button>
                         </div>
@@ -73,4 +73,6 @@
     <script src="{{asset('/assets/carrito/mapas.js')}}"></script>
     <!--Datos dwl mapa guardar-->
     <script type="module" src="{{asset('assets/carrito/guardarDatosMapas.js')}}"></script>
+    <!--Libreria Para los alert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @endsection

@@ -280,15 +280,32 @@ function pagarClicked() {
             data: data,
             success: function (response) {
                 if (response.status == 200) {
-                    if (response.redirect) {
+                    Swal.fire({
+                        title: "Se realizo correctamente el pedido!",
+                        text: "Guardado correctamente!",
+                        icon: "success",
+                    });
+                    /*if (response.redirect) {
                         console.log("guardado");
                         window.location.href = response.redirect;
-                    }
+                    }*/
                 } else {
+                    Swal.fire({
+                        title: "Se realizo correctamente el pedido!",
+                        text: "Guardado correctamente!",
+                        icon: "success",
+                    });
                     console.log("error Servidor");
                 }
             },
             error: function (data, textStatus, jqXHR, error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Se produjo un error",
+                    text: "Vuelve a intentarlo!",
+                    footer: '<a href="#">Why do I have this issue?</a>',
+                });
+
                 console.log(data);
                 console.log(textStatus);
                 console.log(jqXHR);
@@ -304,7 +321,13 @@ function pagarClicked() {
         actualizarTotalCarrito();
         ocultarCarrito();
     } else {
+        Swal.fire({
+            icon: "error",
+            title: "Error ubicacion ! ",
+            text: "Por favor coloque la ubicacion del pedido!",
+            footer: '<a href="#">Why do I have this issue?</a>',
+        });
         console.log(vector);
-        alert("Ingrese una ubicacion para el pedido");
+        //alert("Ingrese una ubicacion para el pedido");
     }
 }

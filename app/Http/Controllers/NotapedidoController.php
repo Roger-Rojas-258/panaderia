@@ -16,6 +16,7 @@ use App\Models\Tipoproducto;
 use App\Models\Ubicacion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class NotapedidoController extends Controller
 {
@@ -127,11 +128,7 @@ class NotapedidoController extends Controller
             }
 
             return response()->json(['redirect' => route('roles.index')]);
-
-            // return response()->json([
-            //     'mensaje' => 'Datos recibidos y procesados correctamente',
-            //     'status' => 200
-            // ]);
+                
             } else {
             return response()->json(['mensaje' => 'No se recibieron datos'], 400);
             }
@@ -182,5 +179,41 @@ class NotapedidoController extends Controller
         $repartidoresvehiculo=Repartidorvehiculo::all();
         $repartidores = Repartidor::where('estado',1)->get();
         return view('pedidos.repartidorasignado', compact('pedidos', 'clientes','ubicaciones','pagos','repartidores','repartidoresvehiculo'));
+    }
+
+    public function detallePedido($id) {
+    //$datos = $request->all(); // Cambiar a $request->all()
+    //$id_pedido = $datos['id_pedido'];
+    // traer los detalle de venta las ventas los clientes repartidores ubicacion tipo de pago vehiculo
+    $pedidos = Notapedido::where('id_pedido',$id);
+    $detallepedidos = Detallepedido::all();//porque puede haber mas de 1 detalle por venta 
+    $ubicaciones = Ubicacion::all();
+    $clientes = Cliente::all();
+    $repartidores = Repartidor::all();
+    $repartidoresvehiculo= Repartidorvehiculo::all();
+    $pagos = Tipopago::all();
+    return view('pedidos.detalle', compact('pedidos', 'clientes','ubicaciones','pagos','repartidores','repartidoresvehiculo'));
+    }
+    
+    //Empezamos con el pdf
+    public function pdf($id)
+    {
+    $pedidos = Notapedido::find($id);
+    $detallepedidos = Detallepedido::where('id_pedido', $id)->get();
+    $productoofertas = Productooferta::all();
+    $productos = Producto::all();
+
+    // Convertir los datos a un array asociativo
+    $data = [
+        'pedidos' => $pedidos,
+        'detallepedidos' => $detallepedidos,
+        'productoofertas' => $productoofertas,
+        'productos' => $productos,
+    ];
+
+    // Pasar el array a loadView
+    $pdf = Pdf::loadView('pedidos.pdf', $data);
+    
+    return $pdf->stream();
     }
 }

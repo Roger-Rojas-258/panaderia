@@ -23,6 +23,7 @@
               <th scope="col">Ubicacion</th>
               <th scope="col">Asignar repartidor</th>
               <th scope="col">forma de pago</th>
+              <th scope="col">Detalle</th>
               <th scope="col"></th>
               <th scope="col"></th>
             </tr>
@@ -57,7 +58,7 @@
                 @foreach ($ubicaciones as $ubicacion)
                     @if ($ubicacion->id_ubicacion == $pedido->id_ubicacion)
                       <td>
-                        <span class="badge badge-dot mr-4">Longitud: {{$ubicacion->longitud}} <br> Latitud: {{$ubicacion->latitud}}</span>
+                        <span class="badge badge-dot mr-4">{{$ubicacion->descripcion}}</span>
                       </td>                        
                     @endif
                 @endforeach
@@ -76,6 +77,13 @@
                         </td>
                     @endif
                 @endforeach
+                <td>
+                  <a href="{{route('pedido.detalle', ['id' => $pedido->id_pedido]) }}" class="badge badge-dot mr-4 detalle" style="font-size: 20px"><i class="fa-solid fa-table"></i></a>
+                </td>
+
+                <td>
+                  <a target="_blank" href="{{route('pedido.pdf', ['id' => $pedido->id_pedido]) }}" class="badge badge-dot mr-4 detalle" style="font-size: 20px"><i class="fa-solid fa-file-pdf"></i></a>
+                </td>
               </tr>
             @endforeach
           </tbody>
@@ -112,7 +120,7 @@
                   <td class="align-middle p-1">{{$repartidor->materno}}</td>
                   <td class="align-middle p-1">{{$repartidor->telefono}}</td>
                   <td>
-                    <a class="badge bg-success select-option asignarRepartidor" id="agregarCliente"
+                    <a id="repartidor" class="badge bg-success select-option asignarRepartidor" id="agregarCliente"
                     rel="tooltip" data-placement="top" title="Seleccionar" data-id="{{$repartidor->id_repartidor}}" data-nombre="{{$repartidor->nombre}}" style="padding: 10px" data-bs-dismiss="modal"> <i class="fa-solid fa-plus" style="font-size: 15px"></i></a>
                   </td>
                 </tr>
@@ -128,6 +136,6 @@
   </div>
 </div>
 
-
 <script src="{{asset('assets/carrito/asignarRepartidor.js')}}"></script>
+<script src="{{asset('assets/carrito/detallePedido.js')}}"></script>
 @endsection
