@@ -28,7 +28,7 @@ class NotapedidoController extends Controller
     public function index()
     {
         $fechaActual = Carbon::now()->toDateString();
-        $ofertaDia = Ofertadia::where('fecha', $fechaActual)->first();
+        $ofertaDia = Ofertadia::where('fecha', $fechaActual)->orderBy('id_oferta', 'desc')->first();
         $productoofertas = Productooferta::where('id_oferta', $ofertaDia->id_oferta)->get();
         $productos = Producto::where('estado', 1)->get();
 

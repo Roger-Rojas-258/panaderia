@@ -151,7 +151,7 @@ trait AuthenticatesUsers
             $_SESSION['id_cliente'] = $user->id_cliente;
             return redirect()->route('carrito.index');
         }
-        
+
         // Cerrar la sesión (opcional)
         session_write_close();
     }
@@ -198,6 +198,14 @@ trait AuthenticatesUsers
         if ($response = $this->loggedOut($request)) {
             return $response;
         }
+
+        session_start();
+
+        // Destruye todas las sesiones
+        session_destroy();
+
+        // Anula la sesión actual
+        session_commit();
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
