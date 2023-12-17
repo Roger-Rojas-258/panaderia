@@ -14,7 +14,21 @@
       <i class="ni ni-zoom-split-in"></i>
     </a>
   </li>
+
   <li class="nav-item dropdown">
+    {{-- <a class="nav-link" href="{{route('carrito.index')}}">
+      <i class="ni ni-tv-2 text-primary"></i>
+      <span class="nav-link-text">Inicio</span>
+    </a> --}}
+
+    <a class="nav-link" href="{{route('carrito.index')}}"  >
+      <i class="fas fa-home"></i>
+      <span class="nav-link-text">Inicio</span>
+    </a>
+  </li>
+  
+  
+  <li class="nav-item dropdown"> 
     <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <i class="ni ni-bell-55"></i>
     </a>

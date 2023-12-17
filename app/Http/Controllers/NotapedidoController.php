@@ -27,12 +27,12 @@ class NotapedidoController extends Controller
      */
     public function index()
     {
-        $fechaActual = Carbon::now()->toDateString();
-        $ofertaDia = Ofertadia::where('fecha', $fechaActual)->orderBy('id_oferta', 'desc')->first();
-        $productoofertas = Productooferta::where('id_oferta', $ofertaDia->id_oferta)->get();
-        $productos = Producto::where('estado', 1)->get();
+        // $fechaActual = Carbon::now()->toDateString();
+        // $ofertaDia = Ofertadia::where('fecha', $fechaActual)->orderBy('id_oferta', 'desc')->first();
+        // $productoofertas = Productooferta::where('id_oferta', $ofertaDia->id_oferta)->get();
+        // $productos = Producto::where('estado', 1)->get();
 
-        return view('carrito', compact('productos', 'productoofertas'));
+        // return view('carrito', compact('productos', 'productoofertas'));
     }
 
     /**
@@ -136,12 +136,10 @@ class NotapedidoController extends Controller
                         $productooferta->save();
                     }
 
-                    //return response()->json(['redirect' => route('roles.index')]);
-
-                    // return response()->json([
-                    //     'mensaje' => 'Datos recibidos y procesados correctamente',
-                    //     'status' => 200
-                    // ]);
+                    return response()->json([
+                        'mensaje' => 'Datos recibidos y procesados correctamente',
+                        'status' => 200
+                    ]);
                 } else {
                     return response()->json(['mensaje' => 'No se recibieron datos'], 400);
                 }

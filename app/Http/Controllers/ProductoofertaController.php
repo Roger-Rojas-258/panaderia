@@ -16,10 +16,11 @@ class ProductoofertaController extends Controller
      */
     public function index()
     {
+        return session('Rol');
         $fechaActual = Carbon::now();
         $fechaSolo = $fechaActual->toDateString();
-        $ofertaDia = Ofertadia::where('fecha', $fechaSolo)->first();
 
+        $ofertaDia = Ofertadia::where('fecha', $fechaSolo)->first();
         $productos = $ofertaDia ? $ofertaDia->productos : [];
         $tiposProductos = Tipoproducto::all();
         //return $productos[0]->pivot->id_oferta;
@@ -36,8 +37,7 @@ class ProductoofertaController extends Controller
         do {
             $fechaActual = $fechaActual->subDay();
             //return [$fechaActual->toDateString(), '----', $fechaActual->subDay()->toDateString(),];
-            $ofertaAyer = Ofertadia::where('fecha', $fechaActual->toDateString())->first();
-
+            $ofertaAyer = Ofertadia::where('fecha', $fechaActual->toDateString())->orderBy('id_oferta', 'desc')->first();
             $i++;
         } while (!$ofertaAyer && $i < 50);
 
@@ -51,9 +51,10 @@ class ProductoofertaController extends Controller
      */
     public function store(Request $request)
     {
+        $respuesta = true;
         $datos = $request->input('datos');
         $fechaActual = Carbon::now();
-        if (!(Ofertadia::where('fecha', $fechaActual->toDateString())->first())) {
+        if (!(Ofertadia::where('fecha', $fechaActual->toDateString())->orderBy('id_oferta', 'desc')->first())) {
             $ofertadia = new Ofertadia();
             $ofertadia->fecha = $fechaActual->toDateString();
             $ofertadia->save();
@@ -64,14 +65,10 @@ class ProductoofertaController extends Controller
                 $productooferta->stock = $dato['stock'] < 0 ? 0 : $dato['stock'];
                 $productooferta->save();
             }
+        } else {
+            $respuesta = false;
         }
-        //return redirect()->route('productosoferta.index');
-
-        // Obtén los datos enviados en la solicitud AJAX
-        //$datos = $request->input('datos');
-
-        // Haz lo que necesites con los datos en el controlador
-        return response()->json(['success' => true]);
+        return response()->json(['success' => $respuesta]);
     }
 
     /**

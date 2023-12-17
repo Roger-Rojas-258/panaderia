@@ -24,17 +24,27 @@ enviar.addEventListener('click', function (){
         url: storeRoute, // Reemplaza '/ruta-del-controlador' con la ruta correcta de tu controlador
         type: 'POST',
         data: { datos: datos}, // Enviar datos como parte del cuerpo de la solicitud POST
-        success: function (response) {
+        beforeSend: function () {
+            console.log('Antes de enviar la solicitud');
+        },
+        success: function (response) { // es el exito
             // Manejar la respuesta del controlador si es necesario
-            console.log(response);
-            let mensage = document.getElementById('mensage');
-            mensage.classList.add('alert');
-            mensage.classList.add('alert-success');
-            
-            mensage.innerHTML = '¡Bien hecho! Has insertado correctamente los productos del día.';
+            if(response.success){
+                console.log('Guardado con exito...');
+                let mensage = document.getElementById('mensage');
+                mensage.classList.add('alert');
+                mensage.classList.add('alert-success');
+                mensage.innerHTML = '¡Bien hecho! Has insertado correctamente los productos del día.';
+            }else{
+                console.log('Denegado, Ya se inserto hoy un registro');
+            }
+                
 
         },
-        error: function (error) {
+        complete: function (){
+            console.log('Completado...');
+        },
+        error: function (error) { // es el error
             console.error(error);
         }
     });

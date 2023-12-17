@@ -35,7 +35,7 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="nav-link nav-link-icon" href="{{route('carrito.index')}}">
-              <i class="ni ni-planet"></i>
+              <i class="fas fa-home"></i>
               <span class="nav-link-inner--text">Inicio</span>
             </a>
           </li>
@@ -58,23 +58,22 @@
             </a>
           </li>
 
-          @php
-          session_start();     
-          @endphp
+          
 
-          @if (isset($_SESSION['rol']))
+          @if (Auth::check())
 
             <li class="nav-item">
 
+              {{-- --}}
             <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
               <li class="nav-item dropdown">
                 <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <div class="media align-items-center">
-                    <span class="avatar avatar-sm rounded-circle">
+                  <div class="media align-items-top">
+                    <span class="avatar avatar-sm rounded-circle" style="margin-top: -4px;">
                       <img alt="Image placeholder" src="{{ asset('assets/img/theme/team-4.jpg') }}">
                     </span>
                     <div class="media-body  ml-2  d-none d-lg-block">
-                      <span class="mb-0 text-sm  font-weight-bold">{{Auth()->user()['usuario']}}</span>
+                      <span  class="mb-5 text-sm font-weight-bold mb-2">{{Auth()->user()['usuario']}}</span>
                     </div>
                   </div>
                 </a>
@@ -115,6 +114,22 @@
             </ul>
             
             </li>
+
+            @php
+              session_start();
+            @endphp
+            
+            @if ( $_SESSION['rol'] == 'Administrador' || $_SESSION['rol'] == 'Cajero')
+            <li class="nav-item">
+              <a class="nav-link nav-link-icon" href="{{route('productosoferta.index')}}">
+                <i class="ni ni-key-25"></i>
+                <span class="nav-link-inner--text">Administración</span>
+              </a>
+            </li>
+            @endif
+          @php
+               session_write_close();
+          @endphp
             
           @else
 

@@ -71,6 +71,7 @@
 @section('scripts')
     <script>
         var storeRoute = "{{ route('productosoferta.store') }}";
+        console.log(storeRoute);
     </script>
 
     <script src="{{asset('/js/productosofertas/create.js')}}">
