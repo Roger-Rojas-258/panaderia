@@ -9,7 +9,10 @@
       </div>
       <div class="card-header border-0">
         <a href="{{route('tipoproducto.create')}}" class="btn btn-primary me-md-1 btn-sm p-2"><i class="fas fa-plus"></i> Agregar</a>
+        @if (session('Rol') == 'Administrador')
         <a href="{{route('tipoproducto.eliminados')}}" class="btn btn-warning btn-sm p-2">Eliminados</a>
+        @endif
+        
       </div>
       <div class="table-responsive">
         <table class="table align-items-center table-flush">
@@ -17,8 +20,10 @@
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Nombre</th>
+              @if (session('Rol') == 'Administrador')
               <th scope="col"></th>
               <th scope="col"></th>
+              @endif
             </tr>
           </thead>
           <tbody>
@@ -30,20 +35,24 @@
                 <td>
                   <span class="badge badge-dot mr-4">{{$tipo->nombre}}</span>
                 </td>
-                  <form id="formEliminar{{$tipo->id_tipo}}" action="{{route('tipoproducto.destroy',$tipo->id_tipo)}}" method="POST">
-                    @csrf
-                    @method('DELETE')
+                @if (session('Rol') == 'Administrador')
+                <form id="formEliminar{{$tipo->id_tipo}}" action="{{route('tipoproducto.destroy',$tipo->id_tipo)}}" method="POST">
+                  @csrf
+                  @method('DELETE')
+                  <td>
+                    <a href="{{route('tipoproducto.edit', $tipo->id_tipo)}}">
+                      <i class="fa-solid fa-pen-to-square" style="color: #e5e90c; font-size:20px;"></i>
+                    </a>
+                  </td>
                     <td>
-                      <a href="{{route('tipoproducto.edit', $tipo->id_tipo)}}">
-                        <i class="fa-solid fa-pen-to-square" style="color: #e5e90c; font-size:20px;"></i>
-                      </a>
+                      <button type="button" onclick="mostrarModal('formEliminar{{$tipo->id_tipo}}');" style="border:none; background-color:#fff">
+                        <i class="fa-solid fa-trash-can" style="color: #f20707;font-size:20px;"></i>
+                      </button>
                     </td>
-                      <td>
-                        <button type="button" onclick="mostrarModal('formEliminar{{$tipo->id_tipo}}');" style="border:none; background-color:#fff">
-                          <i class="fa-solid fa-trash-can" style="color: #f20707;font-size:20px;"></i>
-                        </button>
-                      </td>
-                  </form>
+                </form>
+
+                @endif
+                  
               </tr>
             @endforeach
           </tbody>

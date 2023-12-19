@@ -1,5 +1,7 @@
 @extends('layouts.argon')
 
+
+
 @section('content')
 <div class="row">
   <div class="col">
@@ -23,6 +25,7 @@
               <th scope="col">Ubicacion</th>
               <th scope="col">Repartidor asignado</th>
               <th scope="col">forma de pago</th>
+              <th scope="col">Producto entregado ?</th>
               <th scope="col"></th>
               <th scope="col"></th>
             </tr>
@@ -57,7 +60,7 @@
                 @foreach ($ubicaciones as $ubicacion)
                     @if ($ubicacion->id_ubicacion == $pedido->id_ubicacion)
                       <td>
-                        <span class="badge badge-dot mr-4">Longitud: {{$ubicacion->longitud}} <br> Latitud: {{$ubicacion->latitud}}</span>
+                        <span class="badge badge-dot mr-4">{{$ubicacion->descripcion}}</span>
                       </td>                        
                     @endif
                 @endforeach
@@ -81,6 +84,12 @@
                         </td>
                     @endif
                 @endforeach
+                <td>
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary nota" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" data-id_pedido="{{$pedido->id_pedido}}" style="background-color:#5E72E4">
+                    <i class="fa-solid fa-check" style="color:red; font-size:20px; font-weight: bold;"></i>
+                  </button>
+                </td>
               </tr>
             @endforeach
           </tbody>
@@ -95,44 +104,25 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Lista Repartidor</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Confirma si el producto fue entregado?</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color: #fff; border:none;"> <i class="fa-solid fa-x"></i></button>
       </div>
-      <div class="modal-body">
-        <table id="datatablesSimple" class=" border-dark">
-        <thead>
-          <tr>
-            <th class="p-1">Nombre</th>
-            <th class="p-1">Paterno</th>
-            <th class="p-1">Materno</th>
-            <th class="p-1">Telefono</th>
-            <th width="1%" class="p-2"></th>
-          </tr>
-        </thead>
-          <tbody>
-            @foreach ($repartidores as $repartidor)
-                <tr>
-                  <td class="align-middle p-1 nombre">{{$repartidor->nombre}}</td>
-                  <td class="align-middle p-1 apellidos">{{$repartidor->paterno}}</td>
-                  <td class="align-middle p-1">{{$repartidor->materno}}</td>
-                  <td class="align-middle p-1">{{$repartidor->telefono}}</td>
-                  <td>
-                    <a class="badge bg-success select-option asignarRepartidor" id="agregarCliente"
-                    rel="tooltip" data-placement="top" title="Seleccionar" data-id="{{$repartidor->id_repartidor}}" data-nombre="{{$repartidor->nombre}}" style="padding: 10px" data-bs-dismiss="modal"> <i class="fa-solid fa-plus" style="font-size: 15px"></i></a>
-                  </td>
-                </tr>
-            @endforeach
-          </tbody>
-      </table>
+      <div class="modal-body" style="display: flex">
+        <div>
+          <img src="{{asset('assets/assets/img/brand/angelesLogo.jpeg')}}" alt="Logo tipo de los angeles" width="100px" style="border-radius: 50%" class="logo">
+        </div>
+        <div style="margin-left: 20px">
+          <p>Necesitamos que confirmes si el producto fue entregado satisfactoriamente.</p>
+        </div>   
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="aceptar" data-bs-dismiss="modal">Aceptar</button>
       </div>
     </div>
   </div>
 </div>
 
 
-<script src="{{asset('assets/carrito/asignarRepartidor.js')}}"></script>
+<script src="{{asset('assets/carrito/entregado.js')}}"></script>
 @endsection

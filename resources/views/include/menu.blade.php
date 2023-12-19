@@ -1,12 +1,8 @@
 <div class="collapse navbar-collapse" id="sidenav-collapse-main">
   <!-- Nav items -->
   <ul class="navbar-nav">
-    
-    @php
-    session_start();
-    @endphp
 
-    @if ( $_SESSION['rol'] == 'Administrador')
+    @if ( session('Rol') == 'Administrador')
 
       <li class="nav-item">
         <a class="nav-link" href="{{route('inicio')}}">
@@ -14,6 +10,7 @@
           <span class="nav-link-text">DASHBOARD</span>
         </a>
       </li>
+    @endif
 
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
@@ -33,9 +30,7 @@
         </div>
       </li>
 
-    @endif
-    
-    @if ( $_SESSION['rol'] == 'Administrador' || $_SESSION['rol'] == 'Cajero')
+    @if ( session('Rol') == 'Administrador' || session('Rol') == 'Cajero')
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
         aria-expanded="false">
@@ -54,7 +49,6 @@
       </div>
     </li>
     @endif
-
 
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
@@ -78,16 +72,15 @@
       </div>
     </li>
 
-    @if ( $_SESSION['rol'] == 'Administrador' || $_SESSION['rol'] == 'Cajero')
+   
     <li class="nav-item">
       <a href="{{ route('cliente.index')}}" class="nav-link ">
         <i class="fas fa-users text-primary"></i>
         <span class="nav-link-text">CLIENTES</span>
       </a>
     </li>
-    @endif
 
-    @if ( $_SESSION['rol'] == 'Administrador')
+    @if ( session('Rol') == 'Administrador' || session('Rol') == 'Cajero')
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
         aria-expanded="false">
@@ -130,14 +123,16 @@
         <span class="nav-link-text">MÉTODO DE PAGO</span>
       </a>
     </li>
+    @endif
 
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-        aria-expanded="false">
-        <i class="fas fa-user text-primary"></i>
-        <span class="nav-link-text">GESTIÓN DE USUARIOS</span>
-      </a>
-      <div class="dropdown-menu">
+    @if ( session('Rol') == 'Administrador')
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+          aria-expanded="false">
+          <i class="fas fa-user text-primary"></i>
+          <span class="nav-link-text">GESTIÓN DE USUARIOS</span>
+        </a>
+        <div class="dropdown-menu">
         <a class="nav-link" href="{{route('usuario.index')}}">
           <i class="ni ni-single-02 text-yellow"></i>
           <span class="nav-link-text">Usuario</span>
@@ -150,11 +145,10 @@
           <i class="ni ni-single-02 text-yellow"></i>
           <span class="nav-link-text">Privilegios</span>
         </a> --}}
-      </div>
+        </div>
     </li>
 
     @endif
-
 
   </ul>
   

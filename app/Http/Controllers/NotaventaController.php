@@ -23,24 +23,26 @@ class NotaventaController extends Controller
     {
         $productos = Producto::where('estado', 1)->get();
         $categorias = Tipoproducto::all();
-        $clientes = Cliente::where('estado',1)->get();
-        $pagos = Tipopago::where('estado',1)->get();
+        $clientes = Cliente::where('estado', 1)->get();
+        $pagos = Tipopago::where('estado', 1)->get();
         $tipos = Tipopago::where('estado', 1)->get();
         // trarer todos loa productos que esten en producto venta
         $productoVentas = Productooferta::all();
-        return view('ventas.index', compact('productos','clientes','pagos','categorias','productoVentas','tipos'));
+        return view('ventas.index', compact('productos', 'clientes', 'pagos', 'categorias', 'productoVentas', 'tipos'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function auxiliar(){
+    public function auxiliar()
+    {
         $notaventas = Notaventa::all();
         $empleados = Empleado::all();
         $clientes = Cliente::all();
-        $tipos= Tipopago::all();
-        return view('ventas.list', compact('notaventas','empleados','clientes','tipos'));
+        $tipos = Tipopago::all();
+        return view('ventas.list', compact('notaventas', 'empleados', 'clientes', 'tipos'));
     }
+
     public function create()
     {
         //
@@ -85,46 +87,50 @@ class NotaventaController extends Controller
     {
         //
     }
-    
-    public function guardarVenta(Request $request) {
-    $datos = $request->json()->all();
-    if (!empty($datos)) {
-        // Guardar en venta
-        $venta = new Notaventa();
 
-        $fechaActual = Carbon::now();
-        $fechaActual = $fechaActual->format('Y-m-d');
-        
-        $venta->fecha = $fechaActual;
-        $venta->total_precio = $datos['total'];
-        $venta->id_cliente = $datos['id_cliente'];
-        $venta->id_empleado = 1; // Cambiar cuando se autentifique
-        $venta->id_pago = $datos['id_pago'];
-        $venta->save();
+    public function guardarVenta(Request $request)
+    {
+        $datos = $request->json()->all();
+        if (!empty($datos)) {
+            // Guardar en venta
+            $venta = new Notaventa();
 
-        // Extraer información de venta
-        $id_venta = $venta->id_venta;
+            $fechaActual = Carbon::now();
+            $fechaActual = $fechaActual->format('Y-m-d');
 
-        // Guardar en detalle venta
-        foreach ($datos['productos'] as $dato) {
-            //if (isset($dato['id_productooferta'])) {
+            $venta->fecha = $fechaActual;
+            $venta->total_precio = $datos['total'];
+            $venta->id_cliente = $datos['id_cliente'];
+            $venta->id_empleado = 1; // Cambiar cuando se autentifique
+            $venta->id_pago = $datos['id_pago'];
+            $venta->save();
+
+            // Extraer información de venta
+            $id_venta = $venta->id_venta;
+
+            // Guardar en detalle venta
+            foreach ($datos['productos'] as $dato) {
+                //if (isset($dato['id_productooferta'])) {
                 $detalleventa = new Detalleventa();
                 $detalleventa->cantidad = $dato['cantidad'];
                 $detalleventa->sub_total = $dato['subtotal'];
                 $detalleventa->id_productooferta = $dato['productoOferta'];
                 $detalleventa->id_venta = $id_venta;
                 $detalleventa->save();
-            //}
-        }
 
-        return response()->json([
-            'mensaje' => 'Datos recibidos y procesados correctamente',
-            'status' => 200
-        ]);
-    } else {
-        return response()->json(['mensaje' => 'No se recibieron datos'], 400);
-    }
+                $productooferta = Productooferta::find($dato['productoOferta']);
+                $productooferta->stock = $productooferta->stock - $dato['cantidad'];
+                $productooferta->save();
+                //}
+            }
+
+            return response()->json([
+                'mensaje' => 'Datos recibidos y procesados correctamente',
+                'status' => 200
+            ]);
+        } else {
+            return response()->json(['mensaje' => 'No se recibieron datos'], 400);
+        }
         return redirect()->route('venta.list');
     }
-    
 }

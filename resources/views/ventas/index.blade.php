@@ -389,7 +389,7 @@ completarVenta.addEventListener('click', function () {
     productos : carrito,
   };
   console.log(extra);
-  const url = 'http://localhost/panaderia/public/api/venta/guardar';
+  const url = 'http://www.los-angeles.com/panaderia/public/api/venta/guardar';
   const data = JSON.stringify(extra);
 
   $.ajax({

@@ -31,3 +31,5 @@ Route::post('ubicacion/guardar', [UbicacionController::class, 'guardarUbicacion'
 Route::post('notapedido/guardar', [NotapedidoController::class, 'guardarPedido']);
 
 Route::post('notapedido/asignarRepartidor', [NotapedidoController::class, 'asignarRepartidor']);
+
+Route::post('notapedido/Entregado', [NotapedidoController::class, 'cambiarAEntregado']);

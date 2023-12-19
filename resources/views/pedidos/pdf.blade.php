@@ -22,7 +22,7 @@
 </head>
 <body>
 
-  <div class="contenido" style="margin-top: 40px">
+  <div class="contenido" style="margin-top: 20px">
     <div>
       <img src="{{asset('assets/assets/img/brand/angelesLogo.jpeg')}}" alt="" style="border-radius: 50%; border:2px solid blue; box-shadow: 10px 10px 10px #525f7f;" width="150px">
     </div>
@@ -44,31 +44,62 @@
     <p style="margin: 10px; font-size:20px; font-family:'Courier New', Courier, monospace">Montero-JuanXX</p>
   </div>
 
-  <div style="display: flex; padding:10px">
-    <span style="margin: 10px; font-size:20px; font-family:'Courier New', Courier, monospace"><strong>Fecha</strong></span>
-    <p style="margin: 10px; font-size:20px; font-family:'Courier New', Courier, monospace">falta colocar</p>
-  </div>
+  @foreach ($pedidos as $pedido)
+      @if ($pedido->id_pedido == $id)
+        <div style="display: flex; padding:10px">
+          <span style="margin: 10px; font-size:20px; font-family:'Courier New', Courier, monospace"><strong>Fecha</strong></span>
+          <p style="margin: 10px; font-size:20px; font-family:'Courier New', Courier, monospace">{{$pedido->fecha}}</p>
+        </div>          
+      @endif
+  @endforeach
   <hr class="entrecortado">
   <!--Tabla-->
   <div style="display: flex; justify-content: space-around;padding:10px">
     <span style="font-size: 20px;margin:10px"><b>Cantidad</b></span>
     <span style="font-size: 20px;margin:10px"><b>Nombre</b></span>
-    <span style="font-size: 20px;margin:10px"><b>Descripcion</b></span>
+    <span style="font-size: 20px;margin:10px"><b>Tipo producto</b></span>
     <span style="font-size: 20px;margin:10px"><b>Precio</b></span>
     <span style="font-size: 20px;margin:10px"><b>Subtotal</b></span>
   </div>
   <hr class="entrecortado">
-  <div>
+    @foreach ($detallepedidos as $detalle)
+      <div style="display: flex; justify-content: space-around;">
+              @if ($detalle->id_pedido==$id)
+                  <sapn style="font-size: 20px;margin:10px">{{$detalle->cantidad}}</sapn>
+                    @foreach ($productoofertas as $productooferta)
+                      @if ($productooferta->id_productooferta == $detalle->id_productooferta)
+                          @foreach ($productos as $producto) {{-- Corregir el nombre de la variable aquí --}}
+                              @if ($producto->id_producto == $productooferta->id_producto)
+                                  <span style="font-size: 20px;margin:10px">{{$producto->nombre}}</span>
+                                  @foreach ($tipos as $tipo)
+                                      @if ($tipo->id_tipo == $producto->id_tipo)
+                                          <span style="font-size: 20px;margin:10px">{{$tipo->nombre}}</span>
+                                      @endif
+                                  @endforeach
+                                  <span style="font-size: 20px;margin:10px">{{$producto->precio}}</span>
+                              @endif
+                          @endforeach
+                      @endif
+                  @endforeach
+                  <span style="font-size: 20px;margin:10px">{{$detalle->sub_total}}</span>
+              @endif
+      </div>
+      @endforeach
 
-
-
-  </div>
   <!--hasta asui-->
   <hr class="entrecortado">
-  <div style="display: flex;justify-content:space-between">
-    <span style="margin-left: 20px; font-size:20px"><b>Total :</b></span>
-    <span style="margin-right: 20px; font-size:20px">.</span>
-  </div>
+  @foreach ($pedidos as $pedido)
+      @if ($pedido->id_pedido == $id)
+      <div style="display: flex; justify-content: space-between;">
+        <div></div>
+        <div style="display: flex;justify-content:space-between">
+          <span style="margin-left: 20px; font-size:20px"><b>Total :{{$pedido->total_precio}}</b></span>
+          <span style="margin-right: 20px; font-size:20px">.</span>
+        </div>
+      </div>
+        
+      @endif
+  @endforeach
 
   <script src="https://kit.fontawesome.com/e2c73ec39d.js" crossorigin="anonymous"></script>
 </body>

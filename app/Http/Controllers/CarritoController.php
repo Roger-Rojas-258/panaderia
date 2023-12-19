@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Productooferta;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class CarritoController extends Controller
 {
@@ -15,6 +16,7 @@ class CarritoController extends Controller
      */
     public function index()
     {
+
         $fechaActual = Carbon::now()->addDay();
 
         $i = 0;

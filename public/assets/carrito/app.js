@@ -334,7 +334,6 @@ function pagarClicked() {
             tiempo_estimado: 30,
             estado_entrega: "PENDIENTE",
             id_cliente: 1,
-            id_ubicacion: 1,
             id_repartidor: 1,
             id_pago: 1,
             productos: carrito,
@@ -343,33 +342,25 @@ function pagarClicked() {
         console.log(extra); // esta enviando muy bien solo falta pasarlo al controlador y tambien corregir algunos bug
 
         //ajax
-        const url = "http://localhost:8080/panaderia/public/api/notapedido/guardar";
-        const data = JSON.stringify(extra);
+        const url = "http://www.los-angeles.com/panaderia/public/api/notapedido/guardar";
+        //const data = JSON.stringify(extra);
+        let token = $('meta[name="csrf-token"]').attr('content');
 
         $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': token
+            },
             url: url,
             type: "POST",
-            data: data,
+            data: { datos: extra},
             success: function (response) {
-                console.log(response);
-                if (response.status == 200) {
-                    Swal.fire({
-                        title: "Se realizo correctamente el pedido!",
-                        text: "Guardado correctamente!",
-                        icon: "success",
-                    });
-                    /*if (response.redirect) {
-                        console.log("guardado");
-                        window.location.href = response.redirect;
-                    }*/
-                } else {
-                    Swal.fire({
-                        title: "Se realizo correctamente el pedido!",
-                        text: "Guardado correctamente!",
-                        icon: "success",
-                    });
-                    console.log("error Servidor");
-                }
+                
+                Swal.fire({
+                    title: "Se realizo correctamente el pedido!",
+                    text: "Guardado correctamente!",
+                    icon: "success",
+                });
+                
             },
             error: function (data, textStatus, jqXHR, error) {
                 Swal.fire({
@@ -387,12 +378,12 @@ function pagarClicked() {
         });
 
         //Elimino todos los elmentos del carrito
-        var carritoItems = document.getElementsByClassName("carrito-items")[0];
-        while (carritoItems.hasChildNodes()) {
-            carritoItems.removeChild(carritoItems.firstChild);
-        }
-        actualizarTotalCarrito();
-        ocultarCarrito();
+        // var carritoItems = document.getElementsByClassName("carrito-items")[0];
+        // while (carritoItems.hasChildNodes()) {
+        //     carritoItems.removeChild(carritoItems.firstChild);
+        // }
+        // actualizarTotalCarrito();
+        // ocultarCarrito();
     } else {
         Swal.fire({
             icon: "error",

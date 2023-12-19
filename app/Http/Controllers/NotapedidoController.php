@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
+
 
 class NotapedidoController extends Controller
 {
@@ -84,68 +86,68 @@ class NotapedidoController extends Controller
     }
     public function guardarPedido(Request $request)
     {
+        $datos = $request->input('datos');
         try {
-            session_start();
-            if ($_SESSION['id_cliente']) {
-                // dd($_SESSION['id_cliente']);
-                $datos = $request->json()->all();
 
-                if (!empty($datos)) {
+            // $datos = $request->json()->all();
 
-                    $fechaActual = Carbon::now();
-                    $fechaActual = $fechaActual->format('Y-m-d');
+            if (!empty($datos)) {
 
-                    //dd($datos);
+                $fechaActual = Carbon::now();
+                $idLogeado = 0;
+                // if (Auth()->user()->id_cliente) {
+                //     $idLogeado = Auth()->user()->id_cliente;
+                // } else if (Auth()->user()->id_empleado) {
+                //     $idLogeado = Auth()->user()->id_empleado;
+                // } else if (Auth()->user()->id_repartidor) {
+                //     $idLogeado = Auth()->user()->id_repartidor;
+                // }
 
-                    $ubicacion = new Ubicacion();
-                    $ubicacion->longitud = $datos['ubicacion']['longitud'];
-                    $ubicacion->latitud = $datos['ubicacion']['latitud'];
-                    $ubicacion->referencia = $datos['ubicacion']['referencia'];
-                    $ubicacion->descripcion = $datos['ubicacion']['descripcion'];
-                    $ubicacion->save(); //
+                $ubicacion = new Ubicacion();
+                $ubicacion->longitud = $datos['ubicacion']['longitud'];
+                $ubicacion->latitud = $datos['ubicacion']['latitud'];
+                $ubicacion->referencia = $datos['ubicacion']['referencia'];
+                $ubicacion->descripcion = $datos['ubicacion']['descripcion'];
+                $ubicacion->save(); //
 
-                    //-----
-                    //     pedido------------------------------------
-                    $pedido = new Notapedido();
-                    $pedido->fecha = $fechaActual;
-                    $pedido->total_precio = $datos['total_precio'];
-                    $pedido->costo_envio = $datos['costo_envio'];
-                    $pedido->estado_entrega = $datos['estado_entrega'];
-                    $pedido->tiempo_estimado = 5;
-                    $pedido->id_cliente = $_SESSION['id_cliente'];
-                    $pedido->id_ubicacion = $ubicacion->id_ubicacion;
-                    $pedido->id_repartidorvehiculo = 1;
-                    $pedido->id_pago = $datos['id_pago'];
-                    $pedido->save();
+                //     pedido------------------------------------
+                $pedido = new Notapedido();
+                $pedido->fecha = $fechaActual;
+                $pedido->total_precio = $datos['total_precio'];
+                $pedido->costo_envio = $datos['costo_envio'];
+                $pedido->estado_entrega = $datos['estado_entrega'];
+                $pedido->tiempo_estimado = 5;
+                $pedido->id_cliente = 1;
+                $pedido->id_ubicacion = $ubicacion->id_ubicacion;
+                $pedido->id_repartidorvehiculo = 1;
+                $pedido->id_pago = $datos['id_pago'];
+                $pedido->save();
 
-                    // Extraer información de venta
-                    $id_pedido = $pedido->id_pedido;
+                // Extraer información de venta
+                $id_pedido = $pedido->id_pedido;
 
-                    // Guardar en detalle venta
-                    foreach ($datos['productos'] as $dato) {
-                        //if (isset($dato['id_productooferta'])) {
-                        $detallepedido = new Detallepedido();
-                        $detallepedido->cantidad = $dato['cantidad'];
-                        $detallepedido->sub_total = $dato['subtotal'];
-                        $detallepedido->id_productooferta = $dato['productooferta'];
-                        $detallepedido->id_pedido = $id_pedido;
-                        $detallepedido->save();
+                // Guardar en detalle venta
+                foreach ($datos['productos'] as $dato) {
+                    //if (isset($dato['id_productooferta'])) {
+                    $detallepedido = new Detallepedido();
+                    $detallepedido->cantidad = $dato['cantidad'];
+                    $detallepedido->sub_total = $dato['subtotal'];
+                    $detallepedido->id_productooferta = $dato['productooferta'];
+                    $detallepedido->id_pedido = $id_pedido;
+                    $detallepedido->save();
 
-                        $productooferta = Productooferta::find($dato['productooferta']);
-                        $productooferta->stock = $productooferta->stock - $dato['cantidad'];
-                        $productooferta->save();
-                    }
-
-                    return response()->json([
-                        'mensaje' => 'Datos recibidos y procesados correctamente',
-                        'status' => 200
-                    ]);
-                } else {
-                    return response()->json(['mensaje' => 'No se recibieron datos'], 400);
+                    $productooferta = Productooferta::find($dato['productooferta']);
+                    $productooferta->stock = $productooferta->stock - $dato['cantidad'];
+                    $productooferta->save();
                 }
+
+                return response()->json(['success' => 'Guardado correctamente...']);
             } else {
-                dd('No inicio session');
+                return response()->json(['mensaje' => 'No se recibieron datos'], 400);
             }
+            // } else {
+            //     return response()->json(['success' => 'No se inicio sesión' . Auth::check()]);
+            // }
         } catch (QueryException | ModelNotFoundException $e) {
             $response = [
                 'message' => 'Error en la BD al guardar el registro.',
@@ -163,10 +165,10 @@ class NotapedidoController extends Controller
         }
         return $response;
     }
+
     //devolver solo los pedidos que esteen en estado pendiente
     public function Pendiente()
     {
-
         $pedidos = Notapedido::where('estado_entrega', 'PENDIENTE')->get();
         $clientes = Cliente::all();
         $ubicaciones = Ubicacion::all();
@@ -175,6 +177,7 @@ class NotapedidoController extends Controller
         return view('pedidos.porentregar', compact('pedidos', 'clientes', 'ubicaciones', 'pagos', 'repartidores'));
     }
     //ESTO SE ASIGANRA CUANDO EL REPARTIDOR APRETE A OPCION ENTREGADO EN SU VISTA
+
     public function Entregado()
     {
         $pedidos = Notapedido::where('estado_entrega', 'ENTREGADO')->get();

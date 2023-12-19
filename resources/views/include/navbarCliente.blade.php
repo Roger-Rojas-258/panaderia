@@ -58,13 +58,8 @@
             </a>
           </li>
 
-          
-
           @if (Auth::check())
-
             <li class="nav-item">
-
-              {{-- --}}
             <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
               <li class="nav-item dropdown">
                 <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -111,37 +106,27 @@
                   
                 </div>
               </li>
-            </ul>
-            
+            </ul>    
             </li>
-
-            @php
-              session_start();
-            @endphp
-            
-            @if ( $_SESSION['rol'] == 'Administrador' || $_SESSION['rol'] == 'Cajero')
-            <li class="nav-item">
-              <a class="nav-link nav-link-icon" href="{{route('productosoferta.index')}}">
-                <i class="ni ni-key-25"></i>
-                <span class="nav-link-inner--text">Administración</span>
-              </a>
-            </li>
-            @endif
-          @php
-               session_write_close();
-          @endphp
-            
-          @else
-
-          <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="{{route('login')}}">
-              <i class="ni ni-key-25"></i>
-              <span class="nav-link-inner--text">Iniciar Sesión</span>
-            </a>
-          </li>
-          @endif
-            
           
+              @if ( session('Rol') == 'Administrador' || session('Rol') == 'Cajero' || session('Rol') == 'Repartidor')
+                <li class="nav-item">
+                  <a class="nav-link nav-link-icon" href="{{route('productosoferta.index')}}">
+                    <i class="ni ni-key-25"></i>
+                    <span class="nav-link-inner--text">Administración</span>
+                  </a>
+                </li>
+                @endif
+              @else
+              <li class="nav-item">
+                <a class="nav-link nav-link-icon" href="{{route('login')}}">
+                  <i class="ni ni-key-25"></i>
+                  <span class="nav-link-inner--text">Iniciar Sesión</span>
+                </a>
+              </li>
+            @endif
+            
+        
 
           
 

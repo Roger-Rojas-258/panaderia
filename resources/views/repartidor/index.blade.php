@@ -9,7 +9,10 @@
       </div>
       <div class="card-header border-0">
         <a href="{{route('repartidor.create')}}" class="btn btn-primary me-md-1 btn-sm p-2"><i class="fas fa-plus"></i> Agregar</a>
+        @if (session('Rol') == 'Administrador')
         <a href="{{route('repartidor.eliminados')}}" class="btn btn-warning btn-sm p-2">Eliminados</a>
+        @endif
+        
       </div>
       <div class="table-responsive">
         <table class="table align-items-center table-flush">
@@ -25,7 +28,10 @@
               <th scope="col">Sexo</th>
               <th scope="col">Telefono</th>
               <th scope="col"></th>
+              @if (session('Rol') == 'Administrador')
               <th scope="col"></th>
+              @endif
+              
             </tr>
           </thead>
           <tbody>
@@ -66,11 +72,14 @@
                         <i class="fa-solid fa-pen-to-square" style="color: #e5e90c; font-size:20px;"></i>
                       </a>
                     </td>
+                      @if (session('Rol') == 'Administrador')
                       <td>
                         <button type="button" onclick="mostrarModal('formEliminar{{$tipo->id_repartidor}}');" style="border:none; background-color:#fff">
                           <i class="fa-solid fa-trash-can" style="color: #f20707;font-size:20px;"></i>
                         </button>
                       </td>
+                      @endif
+                     
                   </form>
               </tr>
             @endforeach

@@ -16,7 +16,7 @@ class ProductoofertaController extends Controller
      */
     public function index()
     {
-        return session('Rol');
+
         $fechaActual = Carbon::now();
         $fechaSolo = $fechaActual->toDateString();
 

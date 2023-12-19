@@ -29,7 +29,7 @@
                     @if ($producto->id_producto == $dato->id_producto)
                         <div class="item">
                             <span class="titulo-item" style="color: #fff; font-weight: 900;">{{$producto->nombre}}</span>
-                            <img src="{{asset('/assets/carrito/img/boxengasse.png')}}" alt="" class="img-item">
+                            <img src="{{asset($producto->imagen)}}" alt="" class="img-item">
                             <span class="precio-item" style="color: #fff">Precio: <strong style="font-size:20px">{{$producto->precio}} </strong></span>
                             <span class="" style="color: #fff">Stock: <strong class="stock-item" style="font-size:20px">{{$dato->stock}}</strong></span>
                             <button class="boton-item agregar" data-id_producto="{{$producto->id_producto}}" data-precio="{{$producto->precio}}" data-stock="{{$dato->stock}}" data-producto="{{$producto->nombre}}" data-idproductooferta="{{$dato->id_productooferta}}">Agregar al Carrito</button>

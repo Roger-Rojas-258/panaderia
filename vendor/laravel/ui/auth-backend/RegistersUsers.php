@@ -69,28 +69,20 @@ trait RegistersUsers
         /////////////////
         session(['Rol' => $rol->nombre]);
 
-        //////////////
-
-        session_start();
-        // Asignar un valor a una variable de sesión
-        $_SESSION['rol'] = $rol->nombre;
-        // Cerrar la sesión (opcional)
-
+        /////////////
 
         if ($rol->nombre == 'Administrador') {
-            $_SESSION['id_empleado'] = $user->id_cliente;
+
             return redirect()->route('inicio');
         } else if ($rol->nombre == 'Cajero') {
-            $_SESSION['id_empleado'] = $user->id_cliente;
+
             return redirect()->route('productosoferta.index');
         } else if ($rol->nombre == 'Repartidor') {
-            $_SESSION['id_repartidor'] = $user->id_cliente;
+
             return redirect()->route('productosoferta.index');
         } else if ($rol->nombre == 'Cliente') {
-            $_SESSION['id_cliente'] = $user->id_cliente;
+
             return redirect()->route('carrito.index');
         }
-
-        session_write_close();
     }
 }

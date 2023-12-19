@@ -134,26 +134,25 @@ trait AuthenticatesUsers
     protected function authenticated(Request $request, $user)
     {
         $rol = Rol::find($user['id_rol']);
-        session_start();
-        // Asignar un valor a una variable de sesión
-        $_SESSION['rol'] = $rol->nombre;
+
+        /////////////////
+        session(['Rol' => $rol->nombre]);
+
+        /////////////
 
         if ($rol->nombre == 'Administrador') {
-            $_SESSION['id_empleado'] = $user->id_empleado;
+
             return redirect()->route('inicio');
         } else if ($rol->nombre == 'Cajero') {
-            $_SESSION['id_empleado'] = $user->id_empleado;
+
             return redirect()->route('productosoferta.index');
         } else if ($rol->nombre == 'Repartidor') {
-            $_SESSION['id_repartidor'] = $user->id_repartidor;
+
             return redirect()->route('productosoferta.index');
         } else if ($rol->nombre == 'Cliente') {
-            $_SESSION['id_cliente'] = $user->id_cliente;
+
             return redirect()->route('carrito.index');
         }
-
-        // Cerrar la sesión (opcional)
-        session_write_close();
     }
 
     /**
@@ -199,13 +198,7 @@ trait AuthenticatesUsers
             return $response;
         }
 
-        session_start();
-
-        // Destruye todas las sesiones
-        session_destroy();
-
-        // Anula la sesión actual
-        session_commit();
+        session()->flush(); // eliminar todas las sessiones
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)

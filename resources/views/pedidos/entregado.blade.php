@@ -57,7 +57,7 @@
                 @foreach ($ubicaciones as $ubicacion)
                     @if ($ubicacion->id_ubicacion == $pedido->id_ubicacion)
                       <td>
-                        <span class="badge badge-dot mr-4">Longitud: {{$ubicacion->longitud}} <br> Latitud: {{$ubicacion->latitud}}</span>
+                        <span class="badge badge-dot mr-4">{{$ubicacion->descripcion}}</span>
                       </td>                        
                     @endif
                 @endforeach

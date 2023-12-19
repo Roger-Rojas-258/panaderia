@@ -8,7 +8,7 @@ detalle.forEach((element) => {
 
         console.log(objeto);
         //ajax
-        const url = "http://localhost/panaderia/public/api/pedidos/detalle";
+        const url = "http://www.los-angeles.com/panaderia/public/api/pedidos/detalle";
         const data = objeto;
 
         $.ajax({

@@ -19,7 +19,7 @@ repartidor.forEach(function (btn) {
         console.log(datos);
         //ajax
         const url =
-            "http://localhost/panaderia/public/api/notapedido/asignarRepartidor";
+            "http://www.los-angeles.com/panaderia/public/api/notapedido/asignarRepartidor";
         const data = JSON.stringify(datos);
 
         $.ajax({
@@ -31,7 +31,7 @@ repartidor.forEach(function (btn) {
                     if (response.redirect) {
                         const enlaceTemporal = document.createElement("a");
                         enlaceTemporal.href =
-                            "http://localhost/panaderia/public/pedidos/pendiente";
+                            "http://www.los-angeles.com/panaderia/public/pedidos/pendiente";
                         enlaceTemporal.click();
                         console.log("guardado");
                     }
